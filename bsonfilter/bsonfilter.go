@@ -43,6 +43,21 @@ func (bf *BSONFilter) filter(raw bson.Raw) bool {
 	return false
 }
 
+func (bf *BSONFilter) filterOplog(raw bson.Raw) bool {
+	oplog := &db.Oplog{}
+	bson.Unmarshal(raw, oplog)
+	if result, ok := oplog.Object.Map()["_id"]; ok {
+		if userId, ok := result.(int64); ok {
+			if bf.CheckUserId(userId) {
+				return true
+			}
+		}
+
+	}
+	return false
+
+}
+
 func (bf *BSONFilter) Run() (numAll, numFound int, err error) {
 
 	log.Logv(log.Always, "Run...")
