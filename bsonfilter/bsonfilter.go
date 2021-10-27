@@ -45,15 +45,33 @@ func (bf *BSONFilter) filter(raw bson.Raw) bool {
 
 func (bf *BSONFilter) filterOplog(raw bson.Raw) bool {
 	oplog := &db.Oplog{}
-	bson.Unmarshal(raw, oplog)
-	if result, ok := oplog.Object.Map()["_id"]; ok {
-		if userId, ok := result.(int64); ok {
-			if bf.CheckUserId(userId) {
-				return true
-			}
-		}
-
+	err := bson.Unmarshal(raw, oplog)
+	if err != nil {
+		log.Logvf(log.Always, "bson unmarshal error: %v, err: %v", oplog, err)
+		return false
 	}
+	if oplog.Operation == "i" || oplog.Operation == "d" {
+		if result, ok := oplog.Object.Map()["_id"]; ok {
+			if userId, ok := result.(int64); ok {
+				if bf.CheckUserId(userId) {
+					return true
+				}
+			}
+
+		}
+	} else if oplog.Operation == "u" {
+		if result, ok := oplog.Query.Map()["_id"]; ok {
+			if userId, ok := result.(int64); ok {
+				if bf.CheckUserId(userId) {
+					return true
+				}
+			}
+
+		}
+	} else if oplog.Operation == "c" {
+		log.Logvf(log.Always, "un except operation: %v", oplog)
+	}
+
 	return false
 
 }
@@ -68,9 +86,20 @@ func (bf *BSONFilter) Run() (numAll, numFound int, err error) {
 			break
 		}
 
-		ok := bf.filter(result)
+		var ok bool
+
+		if bf.IsOplog{
+			ok = bf.filterOplog(result)
+		}else {
+			ok = bf.filter(result)
+		}
+
 		if ok {
-			bf.OutputWriter.Write(result)
+			n, err := bf.OutputWriter.Write(result)
+			if err != nil {
+				log.Logvf(log.Always, "output write err: %v, n: %v", err, n)
+				break
+			}
 			numFound++
 		}
 

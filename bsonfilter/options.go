@@ -15,6 +15,7 @@ type Options struct {
 	IFileName string
 	OFileName string
 	UserIdMap map[int64]bool
+	IsOplog bool
 }
 
 func (options *Options) getBSONReader() (io.ReadCloser, error) {
@@ -51,11 +52,12 @@ func ParseFlag() (*Options, error) {
 	oFilePtr := flag.String("o", "", "output file")
 	iFilePtr := flag.String("i", "", "input file")
 	userIdListStrPtr := flag.String("userids", "", "UserId List, split by ','")
-
+	isOplog := flag.Bool("isOplog", false, "is oplog")
 	flag.Parse()
 	log.Logvf(log.Always, "input file: %s", *iFilePtr)
 	log.Logvf(log.Always, "output file: %s", *oFilePtr)
 	log.Logvf(log.Always, "user id list: %v", *userIdListStrPtr)
+	log.Logvf(log.Always, "is oplog: %v", *isOplog)
 	jsonStr := "[" + *userIdListStrPtr + "]"
 	log.Logvf(log.Always, "jsonStr: %v", jsonStr)
 	var userIdList []int64
@@ -76,5 +78,6 @@ func ParseFlag() (*Options, error) {
 		IFileName: *iFilePtr,
 		OFileName: *oFilePtr,
 		UserIdMap: userIdMap,
+		IsOplog: *isOplog,
 	}, nil
 }
