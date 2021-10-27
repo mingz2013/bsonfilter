@@ -14,6 +14,10 @@ type BSONFilter struct {
 	OutputWriter io.WriteCloser
 }
 
+func (bf *BSONFilter) Init() {
+	bf.InputSource.SetMaxBSONSize(16 * 1024 * 1024)
+}
+
 func (bf *BSONFilter) Close() error {
 	_ = bf.InputSource.Close()
 	return bf.OutputWriter.Close()
@@ -91,6 +95,8 @@ func New(options *Options) (*BSONFilter, error) {
 		return nil, fmt.Errorf("getting Writer failed: %v", err)
 	}
 	filter.OutputWriter = writer
+
+	filter.Init()
 
 	return filter, nil
 }
