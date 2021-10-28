@@ -1,12 +1,12 @@
 package bsonfilter
 
 import (
-	"encoding/json"
 	"flag"
 	"fmt"
 	"github.com/mongodb/mongo-tools/bsondump"
 	"github.com/mongodb/mongo-tools/common/log"
 	"github.com/mongodb/mongo-tools/common/util"
+	"go.mongodb.org/mongo-driver/bson"
 	"io"
 	"os"
 )
@@ -14,8 +14,9 @@ import (
 type Options struct {
 	IFileName string
 	OFileName string
-	UserIdMap map[int64]bool
-	IsOplog bool
+	//UserIdMap map[int64]bool
+	//IsOplog bool
+	Query bson.D
 }
 
 func (options *Options) getBSONReader() (io.ReadCloser, error) {
@@ -41,43 +42,53 @@ func (options *Options) getWriter() (io.WriteCloser, error) {
 	return bsondump.WriteNopCloser{os.Stdout}, nil
 }
 
-func (options *Options) CheckUserId(userId int64) bool {
-	if _, ok := options.UserIdMap[userId]; ok {
-		return true
-	}
-	return false
-}
+//func (options *Options) CheckUserId(userId int64) bool {
+//	if _, ok := options.UserIdMap[userId]; ok {
+//		return true
+//	}
+//	return false
+//}
 
 func ParseFlag() (*Options, error) {
 	oFilePtr := flag.String("o", "", "output file")
 	iFilePtr := flag.String("i", "", "input file")
-	userIdListStrPtr := flag.String("userids", "", "UserId List, split by ','")
-	isOplog := flag.Bool("isOplog", false, "is oplog")
+	//userIdListStrPtr := flag.String("userids", "", "UserId List, split by ','")
+	//isOplog := flag.Bool("isOplog", false, "is oplog")
+	queryPtr := flag.String("query", "", "query filter, as a json string")
 	flag.Parse()
 	log.Logvf(log.Always, "input file: %s", *iFilePtr)
 	log.Logvf(log.Always, "output file: %s", *oFilePtr)
-	log.Logvf(log.Always, "user id list: %v", *userIdListStrPtr)
-	log.Logvf(log.Always, "is oplog: %v", *isOplog)
-	jsonStr := "[" + *userIdListStrPtr + "]"
-	log.Logvf(log.Always, "jsonStr: %v", jsonStr)
-	var userIdList []int64
-	err := json.Unmarshal([]byte(jsonStr), &userIdList)
+	//log.Logvf(log.Always, "user id list: %v", *userIdListStrPtr)
+	//log.Logvf(log.Always, "is oplog: %v", *isOplog)
+	log.Logvf(log.Always, "query: %v", *queryPtr)
+
+	//jsonStr := "[" + *userIdListStrPtr + "]"
+	//log.Logvf(log.Always, "jsonStr: %v", jsonStr)
+	//var userIdList []int64
+	//err := json.Unmarshal([]byte(jsonStr), &userIdList)
+	//if err != nil {
+	//	return nil, err
+	//}
+	//log.Logvf(log.Always, "userIdList: %v", userIdList)
+	//userIdMap := make(map[int64]bool)
+
+	//for _, userId := range userIdList {
+	//	userIdMap[userId] = true
+	//}
+
+	//log.Logvf(log.Always, "userIdMap: %v", userIdMap)
+
+	var query bson.D
+	err := bson.UnmarshalExtJSON([]byte(*queryPtr), false, &query)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("error parsing query as Extended JSON: %v", err)
 	}
-	log.Logvf(log.Always, "userIdList: %v", userIdList)
-	userIdMap := make(map[int64]bool)
-
-	for _, userId := range userIdList {
-		userIdMap[userId] = true
-	}
-
-	log.Logvf(log.Always, "userIdMap: %v", userIdMap)
 
 	return &Options{
 		IFileName: *iFilePtr,
 		OFileName: *oFilePtr,
-		UserIdMap: userIdMap,
-		IsOplog: *isOplog,
+		//UserIdMap: userIdMap,
+		//IsOplog: *isOplog,
+		Query: query,
 	}, nil
 }
