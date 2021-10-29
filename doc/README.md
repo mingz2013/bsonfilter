@@ -1,0 +1,1 @@
+使用map reduce 模式最大化使用cpu。
