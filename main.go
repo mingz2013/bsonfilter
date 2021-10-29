@@ -5,6 +5,7 @@ import (
 	"github.com/mongodb/mongo-tools/common/log"
 	"github.com/mongodb/mongo-tools/common/util"
 	"os"
+	"runtime"
 )
 
 //var oFile = "./data.o.bson"
@@ -45,5 +46,8 @@ func run() {
 //
 //}
 func main() {
+
+	runtime.GOMAXPROCS(runtime.NumCPU())
+
 	run()
 }
