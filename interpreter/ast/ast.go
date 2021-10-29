@@ -1,13 +1,13 @@
-package parser
+package ast
 
 type Node interface {
 	// 节点
-	Execute() bool
+	Execute()
 }
 
 type EndNode struct {
 	// 叶子结点
-
+	Node
 }
 
 type StringLiteral struct {

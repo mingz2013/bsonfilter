@@ -1,4 +1,4 @@
-package parser
+package token
 
 const (
 	KeywordEq  = "$eq"
