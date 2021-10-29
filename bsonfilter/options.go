@@ -54,10 +54,10 @@ func ParseFlag() (*Options, error) {
 	iFilePtr := flag.String("i", "", "input file")
 	//userIdListStrPtr := flag.String("userids", "", "UserId List, split by ','")
 	//isOplog := flag.Bool("isOplog", false, "is oplog")
-	queryPtr := flag.String("query", "", "query filter, as a json string")
+	queryPtr := flag.String("q", "", "query filter, as a json string")
 	flag.Parse()
-	log.Logvf(log.Always, "input file: %s", *iFilePtr)
-	log.Logvf(log.Always, "output file: %s", *oFilePtr)
+	log.Logvf(log.Always, "input file: %v", *iFilePtr)
+	log.Logvf(log.Always, "output file: %v", *oFilePtr)
 	//log.Logvf(log.Always, "user id list: %v", *userIdListStrPtr)
 	//log.Logvf(log.Always, "is oplog: %v", *isOplog)
 	log.Logvf(log.Always, "query: %v", *queryPtr)
@@ -71,11 +71,11 @@ func ParseFlag() (*Options, error) {
 	//}
 	//log.Logvf(log.Always, "userIdList: %v", userIdList)
 	//userIdMap := make(map[int64]bool)
-
+	//
 	//for _, userId := range userIdList {
 	//	userIdMap[userId] = true
 	//}
-
+	//
 	//log.Logvf(log.Always, "userIdMap: %v", userIdMap)
 
 	var query bson.D

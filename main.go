@@ -12,7 +12,7 @@ import (
 //var oFile = ""
 //var iFile = ""
 
-func main() {
+func run() {
 
 	options, err := bsonfilter.ParseFlag()
 	if err != nil {
@@ -39,4 +39,11 @@ func main() {
 		log.Logv(log.Always, err.Error())
 		os.Exit(util.ExitFailure)
 	}
+}
+
+//func run2(){
+//
+//}
+func main() {
+	run()
 }

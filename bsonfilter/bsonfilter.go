@@ -6,6 +6,7 @@ import (
 	"github.com/mongodb/mongo-tools/common/log"
 	"go.mongodb.org/mongo-driver/bson"
 	"io"
+	"strings"
 )
 
 type BSONFilter struct {
@@ -23,7 +24,6 @@ func (bf *BSONFilter) Close() error {
 	return bf.OutputWriter.Close()
 }
 
-//
 //func (bf *BSONFilter) filter(raw bson.Raw) bool {
 //	//log.Logvf(log.Always, "%s", raw)
 //	//fmt.Println(raw.Elements())
@@ -35,7 +35,7 @@ func (bf *BSONFilter) Close() error {
 //	if id_.IsNumber() {
 //		userId, ok := id_.AsInt64OK()
 //		if ok {
-//			if bf.CheckUserId(userId) {
+//			if bf.options.CheckUserId(userId) {
 //				return true
 //			}
 //		}
@@ -51,22 +51,38 @@ func (bf *BSONFilter) Close() error {
 //		log.Logvf(log.Always, "bson unmarshal error: %v, err: %v", oplog, err)
 //		return false
 //	}
+//
+//	if oplog.Namespace != "data.data"{
+//		return false
+//	}
+//	//log.Logvf(log.Always, "oplog: %v", oplog, oplog.Operation, oplog.Query, oplog.Object)
+//
+//
 //	if oplog.Operation == "i" || oplog.Operation == "d" {
+//		//log.Logvf(log.Always, "oplog object: %v", oplog.Object)
+//		if oplog.Operation == "d"{return false}
 //		if result, ok := oplog.Object.Map()["_id"]; ok {
-//			if userId, ok := result.(int64); ok {
-//				if bf.CheckUserId(userId) {
+//			log.Logvf(log.Always,"result, %v, type: %v", result, reflect.TypeOf(result))
+//			userId := int64(result.(float64))
+//			//if userId, ok := result.(int64); ok {
+//				log.Logvf(log.Always, "userId: %v", userId)
+//				if bf.options.CheckUserId(userId) {
 //					return true
 //				}
-//			}
+//			//}
 //
 //		}
 //	} else if oplog.Operation == "u" {
+//		//log.Logvf(log.Always, "oplog query: %v", oplog.Query)
+//
 //		if result, ok := oplog.Query.Map()["_id"]; ok {
-//			if userId, ok := result.(int64); ok {
-//				if bf.CheckUserId(userId) {
+//			userId := int64(result.(float64))
+//
+//			//if userId, ok := result.(int64); ok {
+//				if bf.options.CheckUserId(userId) {
 //					return true
 //				}
-//			}
+//			//}
 //
 //		}
 //	} else if oplog.Operation == "c" {
@@ -77,9 +93,21 @@ func (bf *BSONFilter) Close() error {
 //
 //}
 
-func (bf *BSONFilter) check(raw *bson.Raw, filter *bson.D) bool {
+func (bf *BSONFilter) check(raw *bson.Raw, query *bson.D) bool {
+	// { status: "A", $or: [ { qty: { $lt: 30 } }, { item: /^p/ } ] }
+	log.Logvf(log.Always, "raw: %v", *raw)
+	log.Logvf(log.Always, "query: %v", *query)
+	for _, e := range *query {
+		log.Logvf(log.Always, "e: %v, e.Key: %v, e.Value: %v", e, e.Key, e.Value)
+		if strings.HasPrefix(e.Key, "$") {
+			// command
 
-	return true
+		} else {
+			// key
+
+		}
+	}
+	return false
 }
 
 func (bf *BSONFilter) Check(raw *bson.Raw) bool {
@@ -98,7 +126,7 @@ func (bf *BSONFilter) Run() (numAll, numFound int, err error) {
 
 		var ok bool
 
-		//if bf.IsOplog{
+		//if bf.options.IsOplog{
 		//	ok = bf.filterOplog(result)
 		//}else {
 		//	ok = bf.filter(result)
@@ -120,6 +148,7 @@ func (bf *BSONFilter) Run() (numAll, numFound int, err error) {
 		//if numFound > 1{
 		//	break
 		//}
+		break
 
 	}
 

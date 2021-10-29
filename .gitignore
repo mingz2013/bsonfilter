@@ -18,3 +18,4 @@ bin
 .idea
 *.bson
 test_data
+backup
