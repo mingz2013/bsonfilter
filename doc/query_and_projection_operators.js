@@ -24,12 +24,14 @@ db.data.find({"_id": {"$ne": 1}})
 // $nin
 db.data.find({"_id": {"$nin": [1,2]}})
 
+
+// $not, 用到值后面
+db.data.find({"_id": {"$not": {"$gt": 2}}})
+
 // 逻辑运算符，不能用到字段的后面，只能用到最外层。
 // $and
 db.data.find({"_id": { "$gt":1, "lt":2 }})
 db.data.find({"$and": [{"_id": {"$gt": 1}}, {"_id": {"$lt": 3}}]})
-// $not, 用到值后面
-db.data.find({"_id": {"$not": {"$gt": 2}}})
 
 // $nor [], 所有都为false
 db.data.find({"$nor": [{"_id": 1}, {"_id": 2}]})

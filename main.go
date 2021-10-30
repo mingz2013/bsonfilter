@@ -2,10 +2,10 @@ package main
 
 import (
 	"github.com/mingz2013/bsonfilter/bsonfilter"
+	"github.com/mingz2013/bsonfilter/interpreter/parser"
 	"github.com/mongodb/mongo-tools/common/log"
 	"github.com/mongodb/mongo-tools/common/util"
 	"os"
-	"runtime"
 )
 
 //var oFile = "./data.o.bson"
@@ -42,12 +42,23 @@ func run() {
 	}
 }
 
-//func run2(){
-//
-//}
+func run2() {
+	options, err := bsonfilter.ParseFlag()
+	if err != nil {
+		log.Logvf(log.Always, err.Error())
+		os.Exit(util.ExitFailure)
+	}
+
+	p := parser.Parser{}
+	p.ParseD(options.Query)
+
+}
+
 func main() {
 
-	runtime.GOMAXPROCS(runtime.NumCPU())
+	//runtime.GOMAXPROCS(runtime.NumCPU())
 
-	run()
+	//run()
+	run2()
+
 }

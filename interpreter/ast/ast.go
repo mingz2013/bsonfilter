@@ -33,6 +33,7 @@ type FloatNumber struct {
 type Identifier struct {
 	// 标识符
 	EndNode
+	Key string
 }
 
 type Expression interface {
