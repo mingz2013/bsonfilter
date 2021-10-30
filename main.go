@@ -50,8 +50,8 @@ func run2() {
 	}
 
 	p := parser.Parser{}
-	p.ParseD(options.Query)
-
+	node := p.Parse(options.Query)
+	log.Logvf(log.Always, "node: %v", node)
 }
 
 func main() {

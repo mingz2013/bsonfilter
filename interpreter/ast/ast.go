@@ -5,106 +5,170 @@ type Node interface {
 	Execute()
 }
 
-type EndNode struct {
-	// 叶子结点
-	Node
+type Literal struct {
+	// 字面量
+
+	Value interface{}
 }
 
-type StringLiteral struct {
-	// 字符串字面量
-	EndNode
-}
+func (node Literal) Execute() {
 
-type DigitLiteral struct {
-	// 数字字面值
-	EndNode
-}
-
-type Integer struct {
-	// 整数
-	EndNode
-}
-
-type FloatNumber struct {
-	// 浮点数
-	EndNode
 }
 
 type Identifier struct {
 	// 标识符
-	EndNode
 	Key string
+}
+
+func (node Identifier) Execute() {
+
 }
 
 type Expression interface {
 	// 表达式
-	Node
+
 }
 
 type UnaryExpression struct {
 	// 一元运算符
-	Expression
-	Value *Node
+
+	Value Node
+}
+
+func (node UnaryExpression) Execute() {
+
 }
 
 type BinaryOperationExpression struct {
 	// 二元运算符
-	Expression
-	Value1 *Node
-	Value2 *Node
+
+	Value1 Node
+	Value2 Node
+}
+
+func (node BinaryOperationExpression) Execute() {
+
 }
 
 type ComparisonExpression struct {
 	// 比较运算
-	BinaryOperationExpression
+	Value1 Node
+	Value2 Node
+}
+
+func (node ComparisonExpression) Execute() {
+
 }
 
 type EqualExpression struct {
 	// 等于运算符
-	ComparisonExpression
+	Value1 Node
+	Value2 Node
+}
+
+func (node EqualExpression) Execute() {
+
 }
 
 type NotEqualExpression struct {
 	// 不等于运算符
-	ComparisonExpression
+	Value1 Node
+	Value2 Node
+}
+
+func (node NotEqualExpression) Execute() {
+
 }
 
 type LessThanExpression struct {
 	// 小于
-	ComparisonExpression
+	Value1 Node
+	Value2 Node
+}
+
+func (node LessThanExpression) Execute() {
+
 }
 
 type LessThanOrEqualExpression struct {
 	// 小于等于
-	ComparisonExpression
+	Value1 Node
+	Value2 Node
+}
+
+func (node LessThanOrEqualExpression) Execute() {
+
 }
 
 type GreaterThanExpression struct {
 	// 大于
-	ComparisonExpression
+	Value1 Node
+	Value2 Node
+}
+
+func (node GreaterThanExpression) Execute() {
+
 }
 
 type GreaterThanOrEqualExpression struct {
 	// 大于等于
-	ComparisonExpression
+	Value1 Node
+	Value2 Node
+}
+
+func (node GreaterThanOrEqualExpression) Execute() {
+
 }
 
 type InExpression struct {
-	ComparisonExpression
+	Value1 Node
+	Value2 Node
+}
+
+func (node InExpression) Execute() {
+
 }
 
 type BooleanExpression struct {
 	BinaryOperationExpression
 }
 
+func (node BooleanExpression) Execute() {
+
+}
+
 type OrExpression struct {
-	BooleanExpression
+	Value1 Node
+	Value2 Node
+}
+
+func (node OrExpression) Execute() {
+
 }
 
 type AndExpression struct {
-	BooleanExpression
+	//BooleanExpression
+	Value1 Node
+	Value2 Node
+}
+
+func (node AndExpression) Execute() {
+
 }
 
 type NotExpression struct {
 	UnaryExpression
+}
+
+func (node NotExpression) Execute() {
+
+}
+
+type ExistsExpression struct {
+	Value1 Node
+	Value2 Node
+}
+
+func (node ExistsExpression) Execute() {
+
 }
