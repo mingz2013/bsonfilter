@@ -25,84 +25,6 @@ func (bf *BSONFilter) Close() error {
 	return bf.OutputWriter.Close()
 }
 
-//func (bf *BSONFilter) filter(raw bson.Raw) bool {
-//	//log.Logvf(log.Always, "%s", raw)
-//	//fmt.Println(raw.Elements())
-//	//fmt.Println(raw.Values())
-//	//fmt.Println(raw.Lookup("_id").IsNumber())
-//	//fmt.Println(raw.Lookup("_id").AsInt64OK())
-//
-//	id_ := raw.Lookup("_id")
-//	if id_.IsNumber() {
-//		userId, ok := id_.AsInt64OK()
-//		if ok {
-//			if bf.options.CheckUserId(userId) {
-//				return true
-//			}
-//		}
-//	}
-//
-//	return false
-//}
-
-//func (bf *BSONFilter) filterOplog(raw bson.Raw) bool {
-//	oplog := &db.Oplog{}
-//	err := bson.Unmarshal(raw, oplog)
-//	if err != nil {
-//		log.Logvf(log.Always, "bson unmarshal error: %v, err: %v", oplog, err)
-//		return false
-//	}
-//
-//	if oplog.Namespace != "data.data"{
-//		return false
-//	}
-//	//log.Logvf(log.Always, "oplog: %v", oplog, oplog.Operation, oplog.Query, oplog.Object)
-//
-//
-//	if oplog.Operation == "i" || oplog.Operation == "d" {
-//		//log.Logvf(log.Always, "oplog object: %v", oplog.Object)
-//		if oplog.Operation == "d"{return false}
-//		if result, ok := oplog.Object.Map()["_id"]; ok {
-//			log.Logvf(log.Always,"result, %v, type: %v", result, reflect.TypeOf(result))
-//			userId := int64(result.(float64))
-//			//if userId, ok := result.(int64); ok {
-//				log.Logvf(log.Always, "userId: %v", userId)
-//				if bf.options.CheckUserId(userId) {
-//					return true
-//				}
-//			//}
-//
-//		}
-//	} else if oplog.Operation == "u" {
-//		//log.Logvf(log.Always, "oplog query: %v", oplog.Query)
-//
-//		if result, ok := oplog.Query.Map()["_id"]; ok {
-//			userId := int64(result.(float64))
-//
-//			//if userId, ok := result.(int64); ok {
-//				if bf.options.CheckUserId(userId) {
-//					return true
-//				}
-//			//}
-//
-//		}
-//	} else if oplog.Operation == "c" {
-//		log.Logvf(log.Always, "un except operation: %v", oplog)
-//	}
-//
-//	return false
-//
-//}
-
-//func (bf *BSONFilter) check(raw *bson.Raw, query *bson.D) bool {
-//	// { status: "A", $or: [ { qty: { $lt: 30 } }, { item: /^p/ } ] }
-//	log.Logvf(log.Always, "raw: %v", *raw)
-//	log.Logvf(log.Always, "query: %v", *query)
-//
-//
-//	return false
-//}
-
 func (bf *BSONFilter) Check(raw *bson.Raw) bool {
 	//return bf.check(raw, &bf.options.Query)
 	return bf.interpreter.Check(raw)
@@ -119,12 +41,6 @@ func (bf *BSONFilter) Run() (numAll, numFound int, err error) {
 		}
 
 		var ok bool
-
-		//if bf.options.IsOplog{
-		//	ok = bf.filterOplog(result)
-		//}else {
-		//	ok = bf.filter(result)
-		//}
 
 		ok = bf.Check(&result)
 
