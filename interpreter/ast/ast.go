@@ -1,8 +1,10 @@
 package ast
 
+import "github.com/mingz2013/bsonfilter/interpreter"
+
 type Node interface {
 	// 节点
-	Execute()
+	Execute(intepreterInterface interpreter.IntepreterInterface) bool
 }
 
 type Literal struct {
@@ -11,8 +13,8 @@ type Literal struct {
 	Value interface{}
 }
 
-func (node Literal) Execute() {
-
+func (node Literal) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+	return false
 }
 
 type Identifier struct {
@@ -20,13 +22,8 @@ type Identifier struct {
 	Key string
 }
 
-func (node Identifier) Execute() {
-
-}
-
-type Expression interface {
-	// 表达式
-
+func (node Identifier) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+	return false
 }
 
 type UnaryExpression struct {
@@ -35,8 +32,8 @@ type UnaryExpression struct {
 	Value Node
 }
 
-func (node UnaryExpression) Execute() {
-
+func (node UnaryExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+	return false
 }
 
 type BinaryOperationExpression struct {
@@ -46,8 +43,8 @@ type BinaryOperationExpression struct {
 	Value2 Node
 }
 
-func (node BinaryOperationExpression) Execute() {
-
+func (node BinaryOperationExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+	return false
 }
 
 type ComparisonExpression struct {
@@ -56,8 +53,8 @@ type ComparisonExpression struct {
 	Value2 Node
 }
 
-func (node ComparisonExpression) Execute() {
-
+func (node ComparisonExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+	return false
 }
 
 type EqualExpression struct {
@@ -66,8 +63,8 @@ type EqualExpression struct {
 	Value2 Node
 }
 
-func (node EqualExpression) Execute() {
-
+func (node EqualExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+	return false
 }
 
 type NotEqualExpression struct {
@@ -76,8 +73,8 @@ type NotEqualExpression struct {
 	Value2 Node
 }
 
-func (node NotEqualExpression) Execute() {
-
+func (node NotEqualExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+	return false
 }
 
 type LessThanExpression struct {
@@ -86,8 +83,8 @@ type LessThanExpression struct {
 	Value2 Node
 }
 
-func (node LessThanExpression) Execute() {
-
+func (node LessThanExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+	return false
 }
 
 type LessThanOrEqualExpression struct {
@@ -96,8 +93,8 @@ type LessThanOrEqualExpression struct {
 	Value2 Node
 }
 
-func (node LessThanOrEqualExpression) Execute() {
-
+func (node LessThanOrEqualExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+	return false
 }
 
 type GreaterThanExpression struct {
@@ -106,8 +103,8 @@ type GreaterThanExpression struct {
 	Value2 Node
 }
 
-func (node GreaterThanExpression) Execute() {
-
+func (node GreaterThanExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+	return false
 }
 
 type GreaterThanOrEqualExpression struct {
@@ -116,8 +113,8 @@ type GreaterThanOrEqualExpression struct {
 	Value2 Node
 }
 
-func (node GreaterThanOrEqualExpression) Execute() {
-
+func (node GreaterThanOrEqualExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+	return false
 }
 
 type InExpression struct {
@@ -125,16 +122,16 @@ type InExpression struct {
 	Value2 Node
 }
 
-func (node InExpression) Execute() {
-
+func (node InExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+	return false
 }
 
 type BooleanExpression struct {
 	BinaryOperationExpression
 }
 
-func (node BooleanExpression) Execute() {
-
+func (node BooleanExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+	return false
 }
 
 type OrExpression struct {
@@ -142,8 +139,8 @@ type OrExpression struct {
 	Value2 Node
 }
 
-func (node OrExpression) Execute() {
-
+func (node OrExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+	return false
 }
 
 type AndExpression struct {
@@ -152,16 +149,16 @@ type AndExpression struct {
 	Value2 Node
 }
 
-func (node AndExpression) Execute() {
-
+func (node AndExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+	return false
 }
 
 type NotExpression struct {
 	UnaryExpression
 }
 
-func (node NotExpression) Execute() {
-
+func (node NotExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+	return false
 }
 
 type ExistsExpression struct {
@@ -169,6 +166,6 @@ type ExistsExpression struct {
 	Value2 Node
 }
 
-func (node ExistsExpression) Execute() {
-
+func (node ExistsExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+	return false
 }

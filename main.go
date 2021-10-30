@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/mingz2013/bsonfilter/bsonfilter"
+	interpreter2 "github.com/mingz2013/bsonfilter/interpreter"
 	"github.com/mingz2013/bsonfilter/interpreter/parser"
 	"github.com/mongodb/mongo-tools/common/log"
 	"github.com/mongodb/mongo-tools/common/util"
@@ -52,6 +53,18 @@ func run2() {
 	p := parser.Parser{}
 	node := p.Parse(options.Query)
 	log.Logvf(log.Always, "node: %v", node)
+}
+
+func run3() {
+	options, err := bsonfilter.ParseFlag()
+	if err != nil {
+		log.Logvf(log.Always, err.Error())
+		os.Exit(util.ExitFailure)
+	}
+
+	interpreter := interpreter2.New()
+	interpreter.Init(options.Query)
+
 }
 
 func main() {
