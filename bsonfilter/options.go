@@ -3,6 +3,7 @@ package bsonfilter
 import (
 	"flag"
 	"fmt"
+	interpreter2 "github.com/mingz2013/bsonfilter/interpreter"
 	"github.com/mongodb/mongo-tools/bsondump"
 	"github.com/mongodb/mongo-tools/common/log"
 	"github.com/mongodb/mongo-tools/common/util"
@@ -48,6 +49,12 @@ func (options *Options) getWriter() (io.WriteCloser, error) {
 //	}
 //	return false
 //}
+
+func (options *Options) getInterpreter() *interpreter2.Interpreter {
+	interpreter := interpreter2.New()
+	interpreter.Init(options.Query)
+	return interpreter
+}
 
 func ParseFlag() (*Options, error) {
 	oFilePtr := flag.String("o", "", "output file")

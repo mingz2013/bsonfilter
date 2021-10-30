@@ -71,7 +71,7 @@ func main() {
 
 	//runtime.GOMAXPROCS(runtime.NumCPU())
 
-	//run()
-	run2()
+	run()
+	//run2()
 
 }

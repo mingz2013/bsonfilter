@@ -2,17 +2,18 @@ package bsonfilter
 
 import (
 	"fmt"
+	"github.com/mingz2013/bsonfilter/interpreter"
 	"github.com/mongodb/mongo-tools/common/db"
 	"github.com/mongodb/mongo-tools/common/log"
 	"go.mongodb.org/mongo-driver/bson"
 	"io"
-	"strings"
 )
 
 type BSONFilter struct {
 	options      *Options
 	InputSource  *db.BSONSource
 	OutputWriter io.WriteCloser
+	interpreter  *interpreter.Interpreter
 }
 
 func (bf *BSONFilter) Init() {
@@ -93,25 +94,18 @@ func (bf *BSONFilter) Close() error {
 //
 //}
 
-func (bf *BSONFilter) check(raw *bson.Raw, query *bson.D) bool {
-	// { status: "A", $or: [ { qty: { $lt: 30 } }, { item: /^p/ } ] }
-	log.Logvf(log.Always, "raw: %v", *raw)
-	log.Logvf(log.Always, "query: %v", *query)
-	for _, e := range *query {
-		log.Logvf(log.Always, "e: %v, e.Key: %v, e.Value: %v", e, e.Key, e.Value)
-		if strings.HasPrefix(e.Key, "$") {
-			// command
-
-		} else {
-			// key
-
-		}
-	}
-	return false
-}
+//func (bf *BSONFilter) check(raw *bson.Raw, query *bson.D) bool {
+//	// { status: "A", $or: [ { qty: { $lt: 30 } }, { item: /^p/ } ] }
+//	log.Logvf(log.Always, "raw: %v", *raw)
+//	log.Logvf(log.Always, "query: %v", *query)
+//
+//
+//	return false
+//}
 
 func (bf *BSONFilter) Check(raw *bson.Raw) bool {
-	return bf.check(raw, &bf.options.Query)
+	//return bf.check(raw, &bf.options.Query)
+	return bf.interpreter.Check(raw)
 }
 
 func (bf *BSONFilter) Run() (numAll, numFound int, err error) {
@@ -182,6 +176,8 @@ func New(options *Options) (*BSONFilter, error) {
 	filter.OutputWriter = writer
 
 	filter.Init()
+
+	filter.interpreter = filter.options.getInterpreter()
 
 	return filter, nil
 }

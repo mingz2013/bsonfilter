@@ -1,10 +1,12 @@
 package ast
 
-import "github.com/mingz2013/bsonfilter/interpreter"
+import (
+	"github.com/mingz2013/bsonfilter/interpreter/rawwrapper"
+)
 
 type Node interface {
 	// 节点
-	Execute(intepreterInterface interpreter.IntepreterInterface) bool
+	Execute(wrapper *rawwrapper.RawWrapper) bool
 }
 
 type Literal struct {
@@ -13,7 +15,7 @@ type Literal struct {
 	Value interface{}
 }
 
-func (node Literal) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+func (node Literal) Execute(wrapper *rawwrapper.RawWrapper) bool {
 	return false
 }
 
@@ -22,7 +24,7 @@ type Identifier struct {
 	Key string
 }
 
-func (node Identifier) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+func (node Identifier) Execute(wrapper *rawwrapper.RawWrapper) bool {
 	return false
 }
 
@@ -32,7 +34,7 @@ type UnaryExpression struct {
 	Value Node
 }
 
-func (node UnaryExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+func (node UnaryExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 	return false
 }
 
@@ -43,7 +45,7 @@ type BinaryOperationExpression struct {
 	Value2 Node
 }
 
-func (node BinaryOperationExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+func (node BinaryOperationExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 	return false
 }
 
@@ -53,7 +55,7 @@ type ComparisonExpression struct {
 	Value2 Node
 }
 
-func (node ComparisonExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+func (node ComparisonExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 	return false
 }
 
@@ -63,7 +65,7 @@ type EqualExpression struct {
 	Value2 Node
 }
 
-func (node EqualExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+func (node EqualExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 	return false
 }
 
@@ -73,7 +75,7 @@ type NotEqualExpression struct {
 	Value2 Node
 }
 
-func (node NotEqualExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+func (node NotEqualExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 	return false
 }
 
@@ -83,7 +85,7 @@ type LessThanExpression struct {
 	Value2 Node
 }
 
-func (node LessThanExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+func (node LessThanExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 	return false
 }
 
@@ -93,7 +95,7 @@ type LessThanOrEqualExpression struct {
 	Value2 Node
 }
 
-func (node LessThanOrEqualExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+func (node LessThanOrEqualExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 	return false
 }
 
@@ -103,7 +105,7 @@ type GreaterThanExpression struct {
 	Value2 Node
 }
 
-func (node GreaterThanExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+func (node GreaterThanExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 	return false
 }
 
@@ -113,7 +115,7 @@ type GreaterThanOrEqualExpression struct {
 	Value2 Node
 }
 
-func (node GreaterThanOrEqualExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+func (node GreaterThanOrEqualExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 	return false
 }
 
@@ -122,7 +124,7 @@ type InExpression struct {
 	Value2 Node
 }
 
-func (node InExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+func (node InExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 	return false
 }
 
@@ -130,7 +132,7 @@ type BooleanExpression struct {
 	BinaryOperationExpression
 }
 
-func (node BooleanExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+func (node BooleanExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 	return false
 }
 
@@ -139,7 +141,7 @@ type OrExpression struct {
 	Value2 Node
 }
 
-func (node OrExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+func (node OrExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 	return false
 }
 
@@ -149,7 +151,7 @@ type AndExpression struct {
 	Value2 Node
 }
 
-func (node AndExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+func (node AndExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 	return false
 }
 
@@ -157,7 +159,7 @@ type NotExpression struct {
 	UnaryExpression
 }
 
-func (node NotExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+func (node NotExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 	return false
 }
 
@@ -166,6 +168,6 @@ type ExistsExpression struct {
 	Value2 Node
 }
 
-func (node ExistsExpression) Execute(intepreterInterface interpreter.IntepreterInterface) bool {
+func (node ExistsExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 	return false
 }
