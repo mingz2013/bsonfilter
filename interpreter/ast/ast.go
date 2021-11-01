@@ -10,16 +10,6 @@ type Node interface {
 	//Execute(wrapper *rawwrapper.RawWrapper) bool
 }
 
-//
-//type EndNode interface {
-//	IsNumber() bool
-//	IsString() bool
-//	IsList() bool
-//	GetNumber()
-//	GetString() (string, error)
-//	GetList() (types.Slice, error)
-//}
-
 type Literal struct {
 	// 字面量
 
@@ -58,10 +48,14 @@ type BinaryOperationExpression struct {
 	Value2 Expression
 }
 
-type EqualExpression struct {
-	// 等于运算符
+type KeyExpression struct {
 	Value1 Identifier
 	Value2 Literal
+}
+
+type EqualExpression struct {
+	// 等于运算符
+	KeyExpression
 }
 
 func (node EqualExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
@@ -74,8 +68,7 @@ func (node EqualExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 
 type LessThanExpression struct {
 	// 小于
-	Value1 Identifier
-	Value2 Literal
+	KeyExpression
 }
 
 func (node LessThanExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
@@ -86,8 +79,7 @@ func (node LessThanExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 
 type LessThanOrEqualExpression struct {
 	// 小于等于
-	Value1 Identifier
-	Value2 Literal
+	KeyExpression
 }
 
 func (node LessThanOrEqualExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
@@ -98,8 +90,7 @@ func (node LessThanOrEqualExpression) Execute(wrapper *rawwrapper.RawWrapper) bo
 
 type GreaterThanExpression struct {
 	// 大于
-	Value1 Identifier
-	Value2 Literal
+	KeyExpression
 }
 
 func (node GreaterThanExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
@@ -110,8 +101,7 @@ func (node GreaterThanExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 
 type GreaterThanOrEqualExpression struct {
 	// 大于等于
-	Value1 Identifier
-	Value2 Literal
+	KeyExpression
 }
 
 func (node GreaterThanOrEqualExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
@@ -121,8 +111,7 @@ func (node GreaterThanOrEqualExpression) Execute(wrapper *rawwrapper.RawWrapper)
 }
 
 type InExpression struct {
-	Value1 Identifier
-	Value2 Literal
+	KeyExpression
 }
 
 func (node InExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
@@ -156,8 +145,7 @@ func (node NotExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 }
 
 type ExistsExpression struct {
-	Value1 Identifier
-	Value2 Literal
+	KeyExpression
 }
 
 func (node ExistsExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {

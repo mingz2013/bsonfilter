@@ -13,10 +13,6 @@ type Parser struct {
 	//src *map[string] interface{}// query
 }
 
-//func (parser *Parser) Parse(d bson.D) (node ast.Expression) {
-//	return parser.parseD(d)
-//}
-
 func (parser *Parser) Parse(raw bson.Raw) (node ast.Expression) {
 	return parser.ParseRaw(raw)
 }
@@ -39,25 +35,6 @@ func (parser *Parser) ParseRaw(raw bson.Raw) (node ast.Expression) {
 
 }
 
-//func (parser *Parser) parseD(d bson.D) (node ast.Expression) {
-//
-//	//if len == 1{
-//	//	return parser.parseAnd(src)
-//	//}
-//
-//	length := len(d)
-//	if length == 0 {
-//		return nil
-//	} else if length == 1 {
-//		return parser.parseExpression(d[0])
-//	} else {
-//		// > 1
-//
-//		return parser.parseAnd(d)
-//	}
-//
-//}
-
 func (parser *Parser) parseExpression(e bson.RawElement) ast.Expression {
 	switch e.Key() {
 	case token.KeywordAnd:
@@ -72,20 +49,6 @@ func (parser *Parser) parseExpression(e bson.RawElement) ast.Expression {
 	}
 }
 
-//func (parser *Parser) parseExpression(e bson.E) ast.Expression {
-//
-//	switch e.Key {
-//	case token.KeywordAnd:
-//		return parser.parseAnd(e.Value.([]bson.D)...)
-//	case token.KeywordOr:
-//		return parser.parseOr(e.Value.([]bson.D)...)
-//	case token.KeywordNor:
-//		return parser.parseNor(e.Value.([]bson.D)...)
-//	default:
-//		// value key
-//		return parser.parseKey(e.Key, e.Value)
-//	}
-//}
 func (parser *Parser) parseAnd(raw bson.Raw) ast.Expression {
 
 	var begin ast.AndExpression
@@ -113,28 +76,6 @@ func (parser *Parser) parseAnd(raw bson.Raw) ast.Expression {
 	}
 	return &begin
 }
-
-//func (parser *Parser) parseAnd(args ...bson.D) ast.Expression {
-//
-//	var begin ast.AndExpression
-//	var tmp ast.AndExpression
-//	for _, d := range args {
-//
-//		node := ast.AndExpression{}
-//		node.Value1 = parser.parseD(d)
-//
-//		if &begin == nil {
-//			begin = node
-//		}
-//		if &tmp != nil {
-//			tmp.Value2 = node
-//		}
-//
-//		tmp = node
-//
-//	}
-//	return &begin
-//}
 
 func (parser *Parser) parseOr(raw bson.Raw) ast.Expression {
 
@@ -164,28 +105,6 @@ func (parser *Parser) parseOr(raw bson.Raw) ast.Expression {
 	return begin
 }
 
-//func (parser *Parser) parseOr(args ...bson.D) ast.Expression {
-//
-//	var begin ast.OrExpression
-//	var tmp ast.OrExpression
-//	for _, d := range args {
-//
-//		node := ast.OrExpression{}
-//		node.Value1 = parser.parseD(d)
-//
-//		if &begin == nil {
-//			begin = node
-//		}
-//		if &tmp != nil {
-//			tmp.Value2 = node
-//		}
-//
-//		tmp = node
-//
-//	}
-//	return begin
-//}
-
 func (parser *Parser) parseNor(raw bson.Raw) ast.Expression {
 	var begin ast.OrExpression
 	var tmp ast.OrExpression
@@ -213,29 +132,6 @@ func (parser *Parser) parseNor(raw bson.Raw) ast.Expression {
 	}
 	return begin
 }
-
-//func (parser *Parser) parseNor(args ...bson.D) ast.Expression {
-//	var begin ast.OrExpression
-//	var tmp ast.OrExpression
-//	for _, d := range args {
-//
-//		node := ast.OrExpression{}
-//		not := ast.NotExpression{}
-//		node.Value1 = not
-//		not.Value = parser.parseD(d)
-//
-//		if &begin == nil {
-//			begin = node
-//		}
-//		if &tmp != nil {
-//			tmp.Value2 = node
-//		}
-//
-//		tmp = node
-//
-//	}
-//	return begin
-//}
 
 func (parser *Parser) parseKey(key string, value bson.RawValue) ast.Expression {
 
