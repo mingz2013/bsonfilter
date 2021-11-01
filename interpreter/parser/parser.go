@@ -43,10 +43,19 @@ func (parser *Parser) parseExpression(e bson.RawElement) ast.Expression {
 		return parser.parseOr(e.Value().Array())
 	case token.KeywordNor:
 		return parser.parseNor(e.Value().Array())
+	case token.KeywordNot:
+		return parser.parseNot(e.Value().Document())
+
 	default:
 		// value key
 		return parser.parseKey(e.Key(), e.Value())
 	}
+}
+
+func (parser *Parser) parseNot(raw bson.Raw) ast.Expression {
+	node := ast.NotExpression{}
+	node.Value = parser.ParseRaw(raw)
+	return node
 }
 
 func (parser *Parser) parseAnd(raw bson.Raw) ast.Expression {
