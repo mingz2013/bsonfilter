@@ -26,8 +26,8 @@ func (bf *BSONFilter) Close() error {
 }
 
 func (bf *BSONFilter) Check(raw *bson.Raw) bool {
-	//return bf.check(raw, &bf.options.Query)
-	log.Logvf(log.Always, "Check raw: %v", *raw)
+	//return bf.check(rawwrapper, &bf.options.Query)
+	log.Logvf(log.Always, "Check rawwrapper: %v", *raw)
 	return bf.interpreter.Check(raw)
 }
 

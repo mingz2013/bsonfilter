@@ -66,8 +66,10 @@ type EqualExpression struct {
 
 func (node EqualExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 	//return node.Value1.Execute(wrapper) == node.Value2.Execute(wrapper)
-	return node.Value1.GetRawValue(wrapper).Equal(node.Value2.GetRawValue())
+	//return node.Value1.GetRawValue(wrapper).Equal(node.Value2.GetRawValue())
 	//return false
+	return rawwrapper.IsEqual(node.Value1.GetRawValue(wrapper), node.Value2.GetRawValue())
+
 }
 
 type LessThanExpression struct {
@@ -78,7 +80,8 @@ type LessThanExpression struct {
 
 func (node LessThanExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 	//return node.Value1.Execute(wrapper) < node.Value2.Execute(wrapper)
-	return false
+	return rawwrapper.IsLess(node.Value1.GetRawValue(wrapper), node.Value2.GetRawValue())
+
 }
 
 type LessThanOrEqualExpression struct {
@@ -89,7 +92,8 @@ type LessThanOrEqualExpression struct {
 
 func (node LessThanOrEqualExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 	//return node.Value1.Execute(wrapper) <= node.Value2.Execute(wrapper)
-	return false
+	return rawwrapper.IsLessOrEq(node.Value1.GetRawValue(wrapper), node.Value2.GetRawValue())
+
 }
 
 type GreaterThanExpression struct {
@@ -100,7 +104,8 @@ type GreaterThanExpression struct {
 
 func (node GreaterThanExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 	//return node.Value1.Execute(wrapper) > node.Value2.Execute(wrapper)
-	return false
+	return rawwrapper.IsGreater(node.Value1.GetRawValue(wrapper), node.Value2.GetRawValue())
+
 }
 
 type GreaterThanOrEqualExpression struct {
@@ -111,7 +116,8 @@ type GreaterThanOrEqualExpression struct {
 
 func (node GreaterThanOrEqualExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 	//return node.Value1.Execute(wrapper) >= node.Value2.Execute(wrapper)
-	return false
+	return rawwrapper.IsGreaterOrEq(node.Value1.GetRawValue(wrapper), node.Value2.GetRawValue())
+
 }
 
 type InExpression struct {
@@ -120,7 +126,8 @@ type InExpression struct {
 }
 
 func (node InExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
-	return false
+	result := rawwrapper.IsIn(node.Value1.GetRawValue(wrapper), node.Value2.GetRawValue())
+	return result
 }
 
 type OrExpression struct {

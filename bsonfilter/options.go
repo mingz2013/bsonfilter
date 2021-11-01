@@ -15,8 +15,8 @@ import (
 type Options struct {
 	IFileName string
 	OFileName string
-	Query     bson.D
-	Raw       bson.Raw
+	//Query     bson.D
+	Raw bson.Raw
 }
 
 func (options *Options) getBSONReader() (io.ReadCloser, error) {
@@ -72,11 +72,11 @@ func ParseFlag() (*Options, error) {
 	log.Logvf(log.Always, "bson: %v", b)
 
 	raw := bson.Raw(b)
-	log.Logvf(log.Always, "raw: %v", raw)
+	log.Logvf(log.Always, "rawwrapper: %v", raw)
 	return &Options{
 		IFileName: *iFilePtr,
 		OFileName: *oFilePtr,
-		Query:     query,
-		Raw:       raw,
+		//Query:     query,
+		Raw: raw,
 	}, nil
 }
