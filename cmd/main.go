@@ -10,6 +10,10 @@ import (
 
 func run() {
 
+	defer func() {
+		os.Exit(0)
+	}()
+
 	options, err := bsonfilter.ParseFlag()
 	if err != nil {
 		log.Logv(log.Always, err.Error())
@@ -24,22 +28,19 @@ func run() {
 
 	if err != nil {
 		log.Logv(log.Always, err.Error())
-		os.Exit(util.ExitFailure)
+		panic(err)
 	}
 	defer func() {
 		err := filter.Close()
 		if err != nil {
 			log.Logvf(log.Always, "error cleaning up: %v", err)
-			os.Exit(util.ExitFailure)
+			panic(err)
 		}
 	}()
 
-	numAll, numFound, err := filter.Run()
+	numAll, numFound := filter.Run()
 	log.Logvf(log.Always, "numAll: %v, numFound: %v", numAll, numFound)
-	if err != nil {
-		log.Logv(log.Always, err.Error())
-		os.Exit(util.ExitFailure)
-	}
+
 }
 
 func main() {

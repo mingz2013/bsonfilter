@@ -4,9 +4,7 @@ import (
 	"github.com/mingz2013/bsonfilter/interpreter/ast"
 	"github.com/mingz2013/bsonfilter/interpreter/token"
 	"github.com/mongodb/mongo-tools/common/log"
-	"github.com/mongodb/mongo-tools/common/util"
 	"go.mongodb.org/mongo-driver/bson"
-	"os"
 )
 
 type Parser struct {
@@ -21,7 +19,8 @@ func (parser *Parser) ParseRaw(raw bson.Raw) (node ast.Expression) {
 	rawElems, err := raw.Elements()
 	if err != nil {
 		log.Logvf(log.Always, "err: %v", err)
-		os.Exit(util.ExitFailure)
+		//os.Exit(util.ExitFailure)
+		panic(err)
 	}
 
 	length := len(rawElems)
@@ -65,7 +64,8 @@ func (parser *Parser) parseAnd(raw bson.Raw) ast.Expression {
 	rawElems, err := raw.Elements()
 	if err != nil {
 		log.Logvf(log.Always, "err: %v", err)
-		os.Exit(util.ExitFailure)
+		//os.Exit(util.ExitFailure)
+		panic(err)
 	}
 
 	for _, rawElem := range rawElems {
@@ -93,7 +93,8 @@ func (parser *Parser) parseOr(raw bson.Raw) ast.Expression {
 	rawElems, err := raw.Elements()
 	if err != nil {
 		log.Logvf(log.Always, "err: %v", err)
-		os.Exit(util.ExitFailure)
+		//os.Exit(util.ExitFailure)
+		panic(err)
 	}
 
 	for _, d := range rawElems {
@@ -120,7 +121,8 @@ func (parser *Parser) parseNor(raw bson.Raw) ast.Expression {
 	rawElems, err := raw.Elements()
 	if err != nil {
 		log.Logvf(log.Always, "err: %v", err)
-		os.Exit(util.ExitFailure)
+		//os.Exit(util.ExitFailure)
+		panic(err)
 	}
 	for _, d := range rawElems {
 
@@ -162,7 +164,8 @@ func (parser *Parser) parseKey(key string, value bson.RawValue) ast.Expression {
 	elems, err := raw.Elements()
 	if err != nil {
 		log.Logvf(log.Always, "err: %v", err)
-		os.Exit(util.ExitFailure)
+		//os.Exit(util.ExitFailure)
+		panic(err)
 	}
 
 	for _, e := range elems {
@@ -242,7 +245,8 @@ func (parser *Parser) parseKeyExpression(keyNode ast.Identifier, e bson.RawEleme
 		return node
 	default:
 		log.Logvf(log.Always, "error: %v, %v", keyNode, e)
-		os.Exit(util.ExitFailure)
+		//os.Exit(util.ExitFailure)
+		panic(e)
 
 	}
 	return nil

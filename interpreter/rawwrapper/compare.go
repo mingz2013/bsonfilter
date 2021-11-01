@@ -3,9 +3,7 @@ package rawwrapper
 import (
 	"bytes"
 	"github.com/mongodb/mongo-tools/common/log"
-	"github.com/mongodb/mongo-tools/common/util"
 	"go.mongodb.org/mongo-driver/bson"
-	"os"
 )
 
 const (
@@ -85,7 +83,8 @@ func compareDouble(left, right bson.RawValue) int {
 		return notSupport
 	default:
 		log.Logvf(log.Always, "unknown type %v", right.Type)
-		os.Exit(util.ExitFailure)
+		//os.Exit(util.ExitFailure)
+		panic(right.Type)
 	}
 
 	return notSupport
@@ -137,7 +136,7 @@ func compareString(left, right bson.RawValue) int {
 		return notSupport
 	default:
 		log.Logvf(log.Always, "unknown type %v", right.Type)
-		os.Exit(util.ExitFailure)
+		panic(right.Type)
 	}
 
 	return notSupport
@@ -188,7 +187,7 @@ func compareEmbeddedDocument(left, right bson.RawValue) int {
 		return notSupport
 	default:
 		log.Logvf(log.Always, "unknown type %v", right.Type)
-		os.Exit(util.ExitFailure)
+		panic(right.Type)
 	}
 
 	return notSupport
@@ -239,7 +238,7 @@ func compareArray(left, right bson.RawValue) int {
 		return notSupport
 	default:
 		log.Logvf(log.Always, "unknown type %v", right.Type)
-		os.Exit(util.ExitFailure)
+		panic(right.Type)
 	}
 
 	return notSupport
@@ -290,7 +289,7 @@ func compareBinary(left, right bson.RawValue) int {
 		return notSupport
 	default:
 		log.Logvf(log.Always, "unknown type %v", right.Type)
-		os.Exit(util.ExitFailure)
+		panic(right.Type)
 	}
 
 	return notSupport
@@ -341,7 +340,7 @@ func compareUndefined(left, right bson.RawValue) int {
 		return notSupport
 	default:
 		log.Logvf(log.Always, "unknown type %v", right.Type)
-		os.Exit(util.ExitFailure)
+		panic(right.Type)
 	}
 
 	return notSupport
@@ -392,7 +391,7 @@ func compareObjectID(left, right bson.RawValue) int {
 		return notSupport
 	default:
 		log.Logvf(log.Always, "unknown type %v", right.Type)
-		os.Exit(util.ExitFailure)
+		panic(right.Type)
 	}
 
 	return notSupport
@@ -443,7 +442,7 @@ func compareBoolean(left, right bson.RawValue) int {
 		return notSupport
 	default:
 		log.Logvf(log.Always, "unknown type %v", right.Type)
-		os.Exit(util.ExitFailure)
+		panic(right.Type)
 	}
 
 	return notSupport
@@ -494,7 +493,7 @@ func compareDateTime(left, right bson.RawValue) int {
 		break
 	default:
 		log.Logvf(log.Always, "unknown type %v", right.Type)
-		os.Exit(util.ExitFailure)
+		panic(right.Type)
 	}
 
 	return notSupport
@@ -545,7 +544,7 @@ func compareNull(left, right bson.RawValue) int {
 		break
 	default:
 		log.Logvf(log.Always, "unknown type %v", right.Type)
-		os.Exit(util.ExitFailure)
+		panic(right.Type)
 	}
 
 	return notSupport
@@ -596,7 +595,7 @@ func compareRegex(left, right bson.RawValue) int {
 		break
 	default:
 		log.Logvf(log.Always, "unknown type %v", right.Type)
-		os.Exit(util.ExitFailure)
+		panic(right.Type)
 	}
 
 	return notSupport
@@ -647,7 +646,7 @@ func compareDBPointer(left, right bson.RawValue) int {
 		break
 	default:
 		log.Logvf(log.Always, "unknown type %v", right.Type)
-		os.Exit(util.ExitFailure)
+		panic(right.Type)
 	}
 
 	return notSupport
@@ -698,7 +697,7 @@ func compareJavaScript(left, right bson.RawValue) int {
 		break
 	default:
 		log.Logvf(log.Always, "unknown type %v", right.Type)
-		os.Exit(util.ExitFailure)
+		panic(right.Type)
 	}
 
 	return notSupport
@@ -749,7 +748,7 @@ func compareSymbol(left, right bson.RawValue) int {
 		break
 	default:
 		log.Logvf(log.Always, "unknown type %v", right.Type)
-		os.Exit(util.ExitFailure)
+		panic(right.Type)
 	}
 
 	return notSupport
@@ -800,7 +799,7 @@ func compareCodeWithScope(left, right bson.RawValue) int {
 		break
 	default:
 		log.Logvf(log.Always, "unknown type %v", right.Type)
-		os.Exit(util.ExitFailure)
+		panic(right.Type)
 	}
 
 	return notSupport
@@ -878,7 +877,7 @@ func compareInt32(left, right bson.RawValue) int {
 		break
 	default:
 		log.Logvf(log.Always, "unknown type %v", right.Type)
-		os.Exit(util.ExitFailure)
+		panic(right.Type)
 	}
 
 	return notSupport
@@ -930,7 +929,7 @@ func compareTimestamp(left, right bson.RawValue) int {
 		break
 	default:
 		log.Logvf(log.Always, "unknown type %v", right.Type)
-		os.Exit(util.ExitFailure)
+		panic(right.Type)
 	}
 
 	return notSupport
@@ -1008,7 +1007,7 @@ func compareInt64(left, right bson.RawValue) int {
 		break
 	default:
 		log.Logvf(log.Always, "unknown type %v", right.Type)
-		os.Exit(util.ExitFailure)
+		panic(right.Type)
 	}
 
 	return notSupport
@@ -1059,7 +1058,7 @@ func compareDecimal128(left, right bson.RawValue) int {
 		break
 	default:
 		log.Logvf(log.Always, "unknown type %v", right.Type)
-		os.Exit(util.ExitFailure)
+		panic(right.Type)
 	}
 
 	return notSupport
@@ -1110,7 +1109,7 @@ func compareMinKey(left, right bson.RawValue) int {
 		break
 	default:
 		log.Logvf(log.Always, "unknown type %v", right.Type)
-		os.Exit(util.ExitFailure)
+		panic(right.Type)
 	}
 
 	return notSupport
@@ -1161,7 +1160,7 @@ func compareMaxKey(left, right bson.RawValue) int {
 		break
 	default:
 		log.Logvf(log.Always, "unknown type %v", right.Type)
-		os.Exit(util.ExitFailure)
+		panic(right.Type)
 	}
 
 	return notSupport
@@ -1216,7 +1215,7 @@ func Compare(left, right bson.RawValue) int {
 		return compareMaxKey(left, right)
 	default:
 		log.Logvf(log.Always, "unknown type %v", left.Type)
-		os.Exit(util.ExitFailure)
+		panic(left.Type)
 	}
 
 	return notSupport
@@ -1253,6 +1252,7 @@ func IsIn(left, right bson.RawValue) bool {
 	elems, err := raw.Values()
 	if err != nil {
 		log.Logvf(log.Always, "error %v", err)
+		panic(err)
 	}
 	for _, elem := range elems {
 		if Compare(left, elem) == eq {

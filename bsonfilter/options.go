@@ -26,7 +26,7 @@ func (options *Options) getBSONReader() (io.ReadCloser, error) {
 		}
 		return file, nil
 	}
-	return bsondump.ReadNopCloser{os.Stdin}, nil
+	return bsondump.ReadNopCloser{Reader: os.Stdin}, nil
 }
 
 func (options *Options) getWriter() (io.WriteCloser, error) {
@@ -38,7 +38,7 @@ func (options *Options) getWriter() (io.WriteCloser, error) {
 		return file, nil
 	}
 
-	return bsondump.WriteNopCloser{os.Stdout}, nil
+	return bsondump.WriteNopCloser{Writer: os.Stdout}, nil
 }
 
 func (options *Options) getInterpreter() *interpreter2.Interpreter {
@@ -48,14 +48,16 @@ func (options *Options) getInterpreter() *interpreter2.Interpreter {
 	err := bson.UnmarshalExtJSON([]byte(options.Query), false, &query)
 	if err != nil {
 		log.Logvf(log.Always, "error parsing query as Extended JSON: %v", err)
-		os.Exit(util.ExitFailure)
+		//os.Exit(util.ExitFailure)
+		panic(err)
 	}
 
 	b, err := bson.Marshal(query)
 
 	if err != nil {
 		log.Logvf(log.Always, "error marshal bson query, %v", options.Query)
-		os.Exit(util.ExitFailure)
+		//os.Exit(util.ExitFailure)
+		panic(err)
 	}
 
 	raw := bson.Raw(b)

@@ -30,7 +30,7 @@ func (bf *BSONFilter) Check(raw *bson.Raw) bool {
 	return bf.interpreter.Check(raw)
 }
 
-func (bf *BSONFilter) Run() (numAll, numFound int, err error) {
+func (bf *BSONFilter) Run() (numAll, numFound int) {
 
 	log.Logv(log.Always, "Run...")
 
@@ -64,10 +64,10 @@ func (bf *BSONFilter) Run() (numAll, numFound int, err error) {
 	log.Logv(log.Always, "Run...end")
 
 	if err := bf.InputSource.Err(); err != nil {
-		return numAll, numFound, err
+		panic(err)
 	}
 
-	return numAll, numFound, nil
+	return numAll, numFound
 
 }
 
