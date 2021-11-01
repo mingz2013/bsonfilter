@@ -8,7 +8,7 @@ import (
 )
 
 type Interpreter struct {
-	Ast        ast.Node
+	Ast        ast.Expression
 	Parser     *parser.Parser
 	RawWrapper *rawwrapper.RawWrapper
 }
@@ -19,7 +19,7 @@ func New() *Interpreter {
 	return ins
 }
 
-func (interpreter *Interpreter) Init(query bson.D) *Interpreter {
+func (interpreter *Interpreter) Init(query bson.Raw) *Interpreter {
 	interpreter.Ast = interpreter.Parser.Parse(query)
 	return interpreter
 }

@@ -16,6 +16,7 @@ type Options struct {
 	IFileName string
 	OFileName string
 	Query     bson.D
+	Raw       bson.Raw
 }
 
 func (options *Options) getBSONReader() (io.ReadCloser, error) {
@@ -43,7 +44,7 @@ func (options *Options) getWriter() (io.WriteCloser, error) {
 
 func (options *Options) getInterpreter() *interpreter2.Interpreter {
 	interpreter := interpreter2.New()
-	interpreter.Init(options.Query)
+	interpreter.Init(options.Raw)
 	return interpreter
 }
 
@@ -62,10 +63,20 @@ func ParseFlag() (*Options, error) {
 	if err != nil {
 		return nil, fmt.Errorf("error parsing query as Extended JSON: %v", err)
 	}
+	log.Logvf(log.Always, "query: %v", query)
 
+	b, err := bson.Marshal(query)
+	if err != nil {
+		return nil, fmt.Errorf("rror marshal query: %v", err)
+	}
+	log.Logvf(log.Always, "bson: %v", b)
+
+	raw := bson.Raw(b)
+	log.Logvf(log.Always, "raw: %v", raw)
 	return &Options{
 		IFileName: *iFilePtr,
 		OFileName: *oFilePtr,
 		Query:     query,
+		Raw:       raw,
 	}, nil
 }

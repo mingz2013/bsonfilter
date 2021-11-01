@@ -7,4 +7,4 @@ build:
 #	./bin/bsonfilter.darwin -i backup/data/data/data.bson -o tmp.bson -q '{"_id": 10001}'
 #
 run:
-	go run main.go -i backup/data/data/data.bson -o tmp.bson -q '{"_id": 10001}'
+	go run main.go -i backup/data/data/data.bson -o tmp.bson -q '{"_id": 1}'

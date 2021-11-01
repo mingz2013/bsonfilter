@@ -51,7 +51,7 @@ func run2() {
 	}
 
 	p := parser.Parser{}
-	node := p.Parse(options.Query)
+	node := p.Parse(options.Raw)
 	log.Logvf(log.Always, "node: %v", node)
 }
 
@@ -63,7 +63,7 @@ func run3() {
 	}
 
 	interpreter := interpreter2.New()
-	interpreter.Init(options.Query)
+	interpreter.Init(options.Raw)
 
 }
 
