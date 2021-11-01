@@ -8,44 +8,12 @@ import (
 	"os"
 )
 
-const eq = 0
-const greater = 1
-const less = -1
-const notSupport = -2
-
-//const (
-//	TypeDouble           = bsontype.Double
-//	TypeString           = bsontype.String
-//	TypeEmbeddedDocument = bsontype.EmbeddedDocument
-//	TypeArray            = bsontype.Array
-//	TypeBinary           = bsontype.Binary
-//	TypeUndefined        = bsontype.Undefined
-//	TypeObjectID         = bsontype.ObjectID
-//	TypeBoolean          = bsontype.Boolean
-//	TypeDateTime         = bsontype.DateTime
-//	TypeNull             = bsontype.Null
-//	TypeRegex            = bsontype.Regex
-//	TypeDBPointer        = bsontype.DBPointer
-//	TypeJavaScript       = bsontype.JavaScript
-//	TypeSymbol           = bsontype.Symbol
-//	TypeCodeWithScope    = bsontype.CodeWithScope
-//	TypeInt32            = bsontype.Int32
-//	TypeTimestamp        = bsontype.Timestamp
-//	TypeInt64            = bsontype.Int64
-//	TypeDecimal128       = bsontype.Decimal128
-//	TypeMinKey           = bsontype.MinKey
-//	TypeMaxKey           = bsontype.MaxKey
-//)
-
-//func checkTypeSupport(value bson.RawValue) bool {
-//	switch value.Type {
-//	case bson.TypeInt32, bson.TypeInt64, bson.TypeDecimal128, bson.TypeDouble:
-//		return true
-//	default:
-//		log.Logvf(log.Always, "type support error %v", value.Type)
-//		return false
-//	}
-//}
+const (
+	eq         = 0
+	greater    = 1
+	less       = -1
+	notSupport = -2
+)
 
 func compareDouble(left, right bson.RawValue) int {
 
@@ -1200,53 +1168,8 @@ func compareMaxKey(left, right bson.RawValue) int {
 }
 
 func Compare(left, right bson.RawValue) int {
-	// 0 ==
-	// 1 >
-	// -1 <
+
 	log.Logvf(log.Always, "Compare: left %v, right %v", left, right)
-	//if left.IsNumber() && right.IsNumber(){
-	//	if left.Double() > right.Double(){
-	//		return greater
-	//	}else if left.Double() < right.Double(){
-	//		return less
-	//	}else {
-	//		return eq
-	//	}
-	//} else {
-	//return bytes.Compare(left.Value, right.Value)
-	//}
-
-	//if left.IsNumber() && right.IsNumber(){
-	//	left.
-	//}
-
-	//if checkTypeSupport(left) && checkTypeSupport(right) {
-	//	return false
-	//}
-
-	//const (
-	//	TypeDouble           = bsontype.Double
-	//	TypeString           = bsontype.String
-	//	TypeEmbeddedDocument = bsontype.EmbeddedDocument
-	//	TypeArray            = bsontype.Array
-	//	TypeBinary           = bsontype.Binary
-	//	TypeUndefined        = bsontype.Undefined
-	//	TypeObjectID         = bsontype.ObjectID
-	//	TypeBoolean          = bsontype.Boolean
-	//	TypeDateTime         = bsontype.DateTime
-	//	TypeNull             = bsontype.Null
-	//	TypeRegex            = bsontype.Regex
-	//	TypeDBPointer        = bsontype.DBPointer
-	//	TypeJavaScript       = bsontype.JavaScript
-	//	TypeSymbol           = bsontype.Symbol
-	//	TypeCodeWithScope    = bsontype.CodeWithScope
-	//	TypeInt32            = bsontype.Int32
-	//	TypeTimestamp        = bsontype.Timestamp
-	//	TypeInt64            = bsontype.Int64
-	//	TypeDecimal128       = bsontype.Decimal128
-	//	TypeMinKey           = bsontype.MinKey
-	//	TypeMaxKey           = bsontype.MaxKey
-	//)
 
 	switch left.Type {
 	case bson.TypeDouble:
@@ -1326,7 +1249,6 @@ func IsGreaterOrEq(left, right bson.RawValue) bool {
 }
 
 func IsIn(left, right bson.RawValue) bool {
-	//raw := right.Array()
 	raw := right.Array()
 	elems, err := raw.Values()
 	if err != nil {

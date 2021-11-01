@@ -8,6 +8,7 @@ import (
 type RawWrapper struct {
 	Raw *bson.Raw
 
+	// cache
 	keyMap map[string]bson.RawValue
 }
 
@@ -29,7 +30,3 @@ func (wrapper *RawWrapper) GetRawValue(key string) bson.RawValue {
 	return rawValue
 
 }
-
-//func (wrapper*RawWrapper)getNumber(key string)  {
-//	wrapper.GetKey(key).IsNumber()
-//}

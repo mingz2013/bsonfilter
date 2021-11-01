@@ -52,10 +52,10 @@ func ParseFlag() (*Options, error) {
 	oFilePtr := flag.String("o", "", "output file")
 	iFilePtr := flag.String("i", "", "input file")
 	queryPtr := flag.String("q", "", "query filter, as a json string")
+
 	flag.Parse()
 	log.Logvf(log.Always, "input file: %v", *iFilePtr)
 	log.Logvf(log.Always, "output file: %v", *oFilePtr)
-
 	log.Logvf(log.Always, "query: %v", *queryPtr)
 
 	var query bson.D

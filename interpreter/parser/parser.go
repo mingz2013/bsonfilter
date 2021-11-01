@@ -147,9 +147,6 @@ func (parser *Parser) parseKey(key string, value bson.RawValue) ast.Expression {
 	keyNode := ast.Identifier{}
 	keyNode.Key = key
 
-	//var d bson.D
-	//d, ok := obj.(bson.D)
-
 	raw, ok := value.ArrayOK()
 
 	if !ok {
@@ -188,7 +185,6 @@ func (parser *Parser) parseKey(key string, value bson.RawValue) ast.Expression {
 }
 
 func (parser *Parser) parseKeyExpression(keyNode ast.Identifier, e bson.RawElement) ast.Expression {
-	//var node ast.Node
 
 	switch e.Key() {
 	case token.KeywordEq:

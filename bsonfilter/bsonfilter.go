@@ -26,7 +26,6 @@ func (bf *BSONFilter) Close() error {
 }
 
 func (bf *BSONFilter) Check(raw *bson.Raw) bool {
-	//return bf.check(rawwrapper, &bf.options.Query)
 	log.Logvf(log.Always, "Check rawwrapper: %v", *raw)
 	return bf.interpreter.Check(raw)
 }
@@ -56,10 +55,9 @@ func (bf *BSONFilter) Run() (numAll, numFound int, err error) {
 
 		numAll++
 
-		//if numFound > 1{
+		//if numAll > 1{
 		//	break
 		//}
-		break
 
 	}
 

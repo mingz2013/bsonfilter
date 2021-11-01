@@ -59,9 +59,7 @@ type EqualExpression struct {
 }
 
 func (node EqualExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
-	//return node.Value1.Execute(wrapper) == node.Value2.Execute(wrapper)
-	//return node.Value1.GetRawValue(wrapper).Equal(node.Value2.GetRawValue())
-	//return false
+
 	return rawwrapper.IsEqual(node.Value1.GetRawValue(wrapper), node.Value2.GetRawValue())
 
 }
@@ -72,7 +70,7 @@ type LessThanExpression struct {
 }
 
 func (node LessThanExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
-	//return node.Value1.Execute(wrapper) < node.Value2.Execute(wrapper)
+
 	return rawwrapper.IsLess(node.Value1.GetRawValue(wrapper), node.Value2.GetRawValue())
 
 }
@@ -83,7 +81,7 @@ type LessThanOrEqualExpression struct {
 }
 
 func (node LessThanOrEqualExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
-	//return node.Value1.Execute(wrapper) <= node.Value2.Execute(wrapper)
+
 	return rawwrapper.IsLessOrEq(node.Value1.GetRawValue(wrapper), node.Value2.GetRawValue())
 
 }
@@ -94,7 +92,7 @@ type GreaterThanExpression struct {
 }
 
 func (node GreaterThanExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
-	//return node.Value1.Execute(wrapper) > node.Value2.Execute(wrapper)
+
 	return rawwrapper.IsGreater(node.Value1.GetRawValue(wrapper), node.Value2.GetRawValue())
 
 }
@@ -105,7 +103,6 @@ type GreaterThanOrEqualExpression struct {
 }
 
 func (node GreaterThanOrEqualExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
-	//return node.Value1.Execute(wrapper) >= node.Value2.Execute(wrapper)
 	return rawwrapper.IsGreaterOrEq(node.Value1.GetRawValue(wrapper), node.Value2.GetRawValue())
 
 }
@@ -128,7 +125,6 @@ func (node OrExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 }
 
 type AndExpression struct {
-	//BooleanExpression
 	BinaryOperationExpression
 }
 
