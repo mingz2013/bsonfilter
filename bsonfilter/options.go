@@ -15,8 +15,7 @@ import (
 type Options struct {
 	IFileName string
 	OFileName string
-	//Query     bson.D
-	Raw bson.Raw
+	Query     string
 }
 
 func (options *Options) getBSONReader() (io.ReadCloser, error) {
@@ -44,39 +43,49 @@ func (options *Options) getWriter() (io.WriteCloser, error) {
 
 func (options *Options) getInterpreter() *interpreter2.Interpreter {
 	interpreter := interpreter2.New()
-	interpreter.Init(options.Raw)
+
+	var query bson.D
+	err := bson.UnmarshalExtJSON([]byte(options.Query), false, &query)
+	if err != nil {
+		log.Logvf(log.Always, "error parsing query as Extended JSON: %v", err)
+		os.Exit(util.ExitFailure)
+	}
+
+	b, err := bson.Marshal(query)
+
+	if err != nil {
+		log.Logvf(log.Always, "error marshal bson query, %v", options.Query)
+		os.Exit(util.ExitFailure)
+	}
+
+	raw := bson.Raw(b)
+	log.Logvf(log.Always, "query raw: %v", raw)
+
+	interpreter.Init(raw)
 	return interpreter
 }
 
 func ParseFlag() (*Options, error) {
+	isHelp := flag.Bool("h", false, "show help")
 	oFilePtr := flag.String("o", "", "output file")
 	iFilePtr := flag.String("i", "", "input file")
 	queryPtr := flag.String("q", "", "query filter, as a json string")
 
 	flag.Parse()
-	log.Logvf(log.Always, "input file: %v", *iFilePtr)
-	log.Logvf(log.Always, "output file: %v", *oFilePtr)
-	log.Logvf(log.Always, "query: %v", *queryPtr)
+	//log.Logvf(log.Always, "show help: %v", isHelp)
+	//log.Logvf(log.Always, "input file: %v", *iFilePtr)
+	//log.Logvf(log.Always, "output file: %v", *oFilePtr)
+	//log.Logvf(log.Always, "query: %v", *queryPtr)
 
-	var query bson.D
-	err := bson.UnmarshalExtJSON([]byte(*queryPtr), false, &query)
-	if err != nil {
-		return nil, fmt.Errorf("error parsing query as Extended JSON: %v", err)
+	if *isHelp || *oFilePtr == "" || *iFilePtr == "" || *queryPtr == "" {
+		//log.Logv(log.Always, "Usage for bsonfilter:")
+		flag.Usage()
+		return nil, nil
 	}
-	log.Logvf(log.Always, "query: %v", query)
 
-	b, err := bson.Marshal(query)
-	if err != nil {
-		return nil, fmt.Errorf("rror marshal query: %v", err)
-	}
-	log.Logvf(log.Always, "bson: %v", b)
-
-	raw := bson.Raw(b)
-	log.Logvf(log.Always, "rawwrapper: %v", raw)
 	return &Options{
 		IFileName: *iFilePtr,
 		OFileName: *oFilePtr,
-		//Query:     query,
-		Raw: raw,
+		Query:     *queryPtr,
 	}, nil
 }

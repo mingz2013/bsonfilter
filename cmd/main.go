@@ -15,6 +15,11 @@ func run() {
 		log.Logv(log.Always, err.Error())
 		os.Exit(util.ExitFailure)
 	}
+
+	if options == nil {
+		os.Exit(0)
+	}
+
 	filter, err := bsonfilter.New(options)
 
 	if err != nil {
