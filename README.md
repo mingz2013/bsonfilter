@@ -28,6 +28,10 @@ Usage of ./bin/bsonfilter.darwin:
 -q参数 用来传递 mongo的query 语句。由于此部分功能没有找到现有实现，由本工程自己实现。但是支持不全面。
 
 ## 目前支持的指令
+
+mongo全部指令参考：https://docs.mongodb.com/v4.0/reference/operator/query/#query-selectors
+
+
 - $eq
 - $ne
 - $gt
@@ -96,5 +100,4 @@ const (
 
 
 # ref
-https://docs.mongodb.com/v4.0/reference/operator/query/#query-selectors
 
