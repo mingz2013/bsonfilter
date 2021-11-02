@@ -78,7 +78,7 @@ const (
 
 | bson文档中的类型 | query语句中的类型 | 处理方案 |
 |:---:|:---:|:---:|
-| double | double | double比较 ｜
+| double | double | double比较 |
 | double | int32 | float64 |
 | double | int64 | float64 |
 | string | string | bytes |
