@@ -360,7 +360,9 @@ func compareObjectID(left, right bson.RawValue) int {
 	case bson.TypeUndefined:
 		return notSupport
 	case bson.TypeObjectID:
-		return notSupport
+		right.ObjectID()
+		return bytes.Compare([]byte(left.ObjectID().Hex()), []byte(right.ObjectID().Hex()))
+		//return notSupport
 	case bson.TypeBoolean:
 		return notSupport
 	case bson.TypeDateTime:
@@ -466,7 +468,15 @@ func compareDateTime(left, right bson.RawValue) int {
 	case bson.TypeBoolean:
 		break
 	case bson.TypeDateTime:
-		break
+		l := left.DateTime()
+		r := right.DateTime()
+		if l > r {
+			return greater
+		} else if l < r {
+			return less
+		} else {
+			return eq
+		}
 	case bson.TypeNull:
 		break
 	case bson.TypeRegex:
@@ -918,7 +928,22 @@ func compareTimestamp(left, right bson.RawValue) int {
 		break
 	case bson.TypeTimestamp:
 		//l := left.Timestamp()
-		break
+		lt, li := left.Timestamp()
+		rt, ri := right.Timestamp()
+		if lt > rt {
+			return greater
+		} else if lt < rt {
+			return less
+		} else {
+			if li > ri {
+				return greater
+			} else if li < ri {
+				return less
+			} else {
+				return eq
+			}
+		}
+
 	case bson.TypeInt64:
 		break
 	case bson.TypeDecimal128:

@@ -5,8 +5,8 @@ const (
 	KeywordGt  = "$gt"
 	KeywordGte = "$gte"
 	KeywordIn  = "$in"
-	KeywordLt  = "$Lt"
-	KeywordLte = "$Lte"
+	KeywordLt  = "$lt"
+	KeywordLte = "$lte"
 	KeywordNe  = "$ne"
 	KeywordNin = "$nin"
 
