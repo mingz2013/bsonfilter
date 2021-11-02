@@ -22,4 +22,4 @@ build:
 #
 .PHONY: run
 run:
-	go run cmd/main.go -i backup/data/data/data.bson -o backup/data_new/data/tmp.bson -q '{"_id": 1}'
+	go run cmd/main.go -i backup/data/data/data.bson -o backup/data_new/data/tmp.bson -q '{"_id": 1}' -v

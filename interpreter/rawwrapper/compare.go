@@ -17,9 +17,11 @@ func compareDouble(left, right bson.RawValue) int {
 
 	switch right.Type {
 	case bson.TypeDouble:
-		if left.Double() > right.Double() {
+		l := left.Double()
+		r := right.Double()
+		if l > r {
 			return greater
-		} else if left.Double() < right.Double() {
+		} else if l < r {
 			return less
 		} else {
 			return eq

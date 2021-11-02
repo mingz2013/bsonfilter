@@ -16,6 +16,7 @@ type Options struct {
 	IFileName string
 	OFileName string
 	Query     string
+	IsDebug   bool
 }
 
 func (options *Options) getBSONReader() (io.ReadCloser, error) {
@@ -69,6 +70,7 @@ func (options *Options) getInterpreter() *interpreter2.Interpreter {
 
 func ParseFlag() (*Options, error) {
 	isHelp := flag.Bool("h", false, "show help")
+	isDebug := flag.Bool("v", false, "show details info")
 	oFilePtr := flag.String("o", "", "output file")
 	iFilePtr := flag.String("i", "", "input file")
 	queryPtr := flag.String("q", "", "query filter, as a json string")
@@ -89,5 +91,6 @@ func ParseFlag() (*Options, error) {
 		IFileName: *iFilePtr,
 		OFileName: *oFilePtr,
 		Query:     *queryPtr,
+		IsDebug:   *isDebug,
 	}, nil
 }
