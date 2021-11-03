@@ -10,9 +10,10 @@ import (
 
 func run() {
 
-	defer func() {
-		os.Exit(0)
-	}()
+	//defer func() {
+	//	log.Logvf(log.Always, "run exist ..")
+	//	os.Exit(0)
+	//}()
 
 	options, err := bsonfilter.ParseFlag()
 	if err != nil {
@@ -21,6 +22,7 @@ func run() {
 	}
 
 	if options == nil {
+		log.Logvf(log.Always, "options is none, %v", options)
 		os.Exit(0)
 	}
 

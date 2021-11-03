@@ -4,6 +4,7 @@ import (
 	"github.com/mingz2013/bsonfilter/interpreter/ast"
 	"github.com/mingz2013/bsonfilter/interpreter/parser"
 	"github.com/mingz2013/bsonfilter/interpreter/rawwrapper"
+	"github.com/mongodb/mongo-tools/common/log"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
@@ -21,6 +22,7 @@ func New() *Interpreter {
 
 func (interpreter *Interpreter) Init(query bson.Raw) *Interpreter {
 	interpreter.Ast = interpreter.Parser.Parse(query)
+	log.Logvf(log.Always, "Init..., %v", interpreter.Ast)
 	return interpreter
 }
 

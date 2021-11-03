@@ -23,3 +23,6 @@ build:
 .PHONY: run
 run:
 	go run cmd/main.go -i backup/data/data/data.bson -o backup/data_new/data/tmp.bson -q '{"_id": 1}' -v
+	go run cmd/main.go -i backup/data/data/data.bson -o tmp.bson -v -q '{"$and": [{"_id": 1}, {"a": {"$exists": 0, "$lt": 1}}]}'
+	go run cmd/main.go -i backup/data/data/data.bson -o tmp.bson -v -q '{"$and": [{"_id": 1}, {"a": {"$exists": 0}}]}'
+	go run cmd/main.go -i backup/data/data/data.bson -o tmp.bson -v -q '{"$or": [{"_id": 1}, {"a": {"$exists": 0}}]}'

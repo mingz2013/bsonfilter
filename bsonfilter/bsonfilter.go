@@ -5,7 +5,6 @@ import (
 	"github.com/mingz2013/bsonfilter/interpreter"
 	"github.com/mongodb/mongo-tools/common/db"
 	"github.com/mongodb/mongo-tools/common/log"
-	"github.com/mongodb/mongo-tools/common/options"
 	"go.mongodb.org/mongo-driver/bson"
 	"io"
 )
@@ -23,13 +22,13 @@ func (bf *BSONFilter) Close() error {
 }
 
 func (bf *BSONFilter) Check(raw *bson.Raw) bool {
-	log.Logvf(log.DebugLow, "Check rawwrapper: %v", *raw)
+	log.Logvf(log.Always, "Check rawwrapper: %v", *raw)
 	return bf.interpreter.Check(raw)
 }
 
 func (bf *BSONFilter) Run() (numAll, numFound int) {
 
-	log.Logv(log.DebugLow, "Run...")
+	log.Logv(log.Always, "Run...")
 
 	for {
 		result := bson.Raw(bf.InputSource.LoadNext())
@@ -58,7 +57,7 @@ func (bf *BSONFilter) Run() (numAll, numFound int) {
 
 	}
 
-	log.Logv(log.DebugLow, "Run...end")
+	log.Logv(log.Always, "Run...end")
 
 	if err := bf.InputSource.Err(); err != nil {
 		panic(err)
@@ -97,12 +96,12 @@ func New(options *Options) (*BSONFilter, error) {
 func (bf *BSONFilter) Init() {
 	bf.InputSource.SetMaxBSONSize(16 * 1024 * 1024)
 
-	verbosity := options.Verbosity{}
-	if !bf.options.IsDebug {
-		verbosity.Quiet = true
-	} else {
-		verbosity.VLevel = 1
-	}
-	log.SetVerbosity(verbosity)
+	//verbosity := options.Verbosity{}
+	//if !bf.options.IsDebug {
+	//	verbosity.Quiet = true
+	//} else {
+	//	verbosity.VLevel = 5
+	//}
+	//log.SetVerbosity(verbosity)
 
 }

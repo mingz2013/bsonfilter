@@ -1195,7 +1195,7 @@ func compareMaxKey(left, right bson.RawValue) int {
 
 func Compare(left, right bson.RawValue) int {
 
-	log.Logvf(log.Always, "Compare: left %v, right %v", left, right)
+	log.Logvf(log.Always, "Compare << : left %v, right %v", left, right)
 
 	switch left.Type {
 	case bson.TypeDouble:
@@ -1241,8 +1241,9 @@ func Compare(left, right bson.RawValue) int {
 	case bson.TypeMaxKey:
 		return compareMaxKey(left, right)
 	default:
-		log.Logvf(log.Always, "unknown type %v", left.Type)
-		panic(left.Type)
+		log.Logvf(log.Always, "unknown type %v, left: %v", left.Type, left)
+		//panic(left.Type)
+		return notSupport
 	}
 
 	return notSupport

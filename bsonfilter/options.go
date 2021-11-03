@@ -43,6 +43,7 @@ func (options *Options) getWriter() (io.WriteCloser, error) {
 }
 
 func (options *Options) getInterpreter() *interpreter2.Interpreter {
+	log.Logv(log.Always, "getInterpreter...")
 	interpreter := interpreter2.New()
 
 	var query bson.D
