@@ -54,6 +54,8 @@ func (options *Options) getInterpreter() *interpreter2.Interpreter {
 		panic(err)
 	}
 
+	log.Logvf(log.Always, "query d: %v", query)
+
 	b, err := bson.Marshal(query)
 
 	if err != nil {
@@ -61,6 +63,8 @@ func (options *Options) getInterpreter() *interpreter2.Interpreter {
 		//os.Exit(util.ExitFailure)
 		panic(err)
 	}
+
+	log.Logvf(log.Always, "query b %v", b)
 
 	raw := bson.Raw(b)
 	log.Logvf(log.Always, "query raw: %v", raw)
@@ -80,7 +84,7 @@ func ParseFlag() (*Options, error) {
 	//log.Logvf(log.Always, "show help: %v", isHelp)
 	//log.Logvf(log.Always, "input file: %v", *iFilePtr)
 	//log.Logvf(log.Always, "output file: %v", *oFilePtr)
-	//log.Logvf(log.Always, "query: %v", *queryPtr)
+	log.Logvf(log.Always, "query: %v", *queryPtr)
 
 	if *isHelp || *oFilePtr == "" || *iFilePtr == "" || *queryPtr == "" {
 		//log.Logv(log.Always, "Usage for bsonfilter:")
