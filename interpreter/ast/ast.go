@@ -20,7 +20,7 @@ func (literal *Literal) GetRawValue() bson.RawValue {
 	return literal.Value
 }
 
-func (literal *Literal) GetBoolean() (value bool, ok bool) {
+func (literal *Literal) GetBooleanOk() (value bool, ok bool) {
 	switch literal.Value.Type {
 	case bson.TypeBoolean:
 		return literal.Value.Boolean(), true
@@ -161,7 +161,7 @@ type ExistsExpression struct {
 }
 
 func (node ExistsExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
-	isExists, ok := node.Value2.GetBoolean()
+	isExists, ok := node.Value2.GetBooleanOk()
 	if !ok {
 		return false
 	}

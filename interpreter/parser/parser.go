@@ -43,44 +43,31 @@ func (parser *Parser) parseAndByRawElements(rawElems []bson.RawElement) ast.Expr
 
 }
 
+func (parser *Parser) rawValueToRawValues(rawVaue bson.RawValue) []bson.RawValue {
+	raw, ok := rawVaue.ArrayOK()
+	if !ok {
+		log.Logvf(log.Always, "error parse")
+		panic(rawVaue)
+	}
+	rawValues, err := raw.Values()
+	if err != nil {
+		log.Logvf(log.Always, "error parse")
+		panic(err)
+	}
+	return rawValues
+}
+
 func (parser *Parser) parseExpression(e bson.RawElement) ast.Expression {
 	log.Logvf(log.Always, "parseExpression << e: %v, e.Key: %v, e.Value: %v", e, e.Key(), e.Value())
 	switch e.Key() {
 	case token.KeywordAnd:
-		raw, ok := e.Value().ArrayOK()
-		if !ok {
-			log.Logvf(log.Always, "error parse")
-			panic(e)
-		}
-		rawValues, err := raw.Values()
-		if err != nil {
-			log.Logvf(log.Always, "error parse")
-			panic(err)
-		}
+		rawValues := parser.rawValueToRawValues(e.Value())
 		return parser.parseAnd(rawValues)
 	case token.KeywordOr:
-		raw, ok := e.Value().ArrayOK()
-		if !ok {
-			log.Logvf(log.Always, "error parse")
-			panic(e)
-		}
-		rawValues, err := raw.Values()
-		if err != nil {
-			log.Logvf(log.Always, "error parse")
-			panic(err)
-		}
+		rawValues := parser.rawValueToRawValues(e.Value())
 		return parser.parseOr(rawValues)
 	case token.KeywordNor:
-		raw, ok := e.Value().ArrayOK()
-		if !ok {
-			log.Logvf(log.Always, "error parse")
-			panic(e)
-		}
-		rawValues, err := raw.Values()
-		if err != nil {
-			log.Logvf(log.Always, "error parse")
-			panic(err)
-		}
+		rawValues := parser.rawValueToRawValues(e.Value())
 		return parser.parseNor(rawValues)
 	case token.KeywordNot:
 		return parser.parseNot(e.Value().Document())
