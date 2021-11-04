@@ -1,1 +1,1 @@
-./bin/bsonfilter.darwin -i oplog.enc.bson -o tmp.bson -v -q '{"$and": [{"ns": "idlethree.user_data_1000"}, {"$or": [{"op": "u", "o2._id": {"$in": [45921229, 5001059177]}},{"op": "i", "o1._id": {"$in": [45921229, 5001059177]}},{"op": "d", "o1._id": {"$in": [45921229, 5001059177]}}]}]}'
+./bin/bsonfilter.darwin -i oplog.bson -o tmp.bson -v -q '{"$and": [{"ns": "data.data"}, {"$or": [{"op": "u", "o2._id": {"$in": [45921229, 5001059177]}},{"op": "i", "o1._id": {"$in": [45921229, 5001059177]}},{"op": "d", "o1._id": {"$in": [45921229, 5001059177]}}]}]}'
