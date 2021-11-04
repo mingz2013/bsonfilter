@@ -362,7 +362,7 @@ func compareObjectID(left, right bson.RawValue) int {
 	case bson.TypeUndefined:
 		return notSupport
 	case bson.TypeObjectID:
-		right.ObjectID()
+		//right.ObjectID()
 		return bytes.Compare([]byte(left.ObjectID().Hex()), []byte(right.ObjectID().Hex()))
 		//return notSupport
 	case bson.TypeBoolean:
@@ -859,7 +859,7 @@ func compareInt32(left, right bson.RawValue) int {
 		break
 	case bson.TypeInt32:
 		l := left.Int32()
-		r := left.Int32()
+		r := right.Int32()
 		if l > r {
 			return greater
 		} else if l < r {
@@ -872,7 +872,7 @@ func compareInt32(left, right bson.RawValue) int {
 		break
 	case bson.TypeInt64:
 		l := int64(left.Int32())
-		r := left.Int64()
+		r := right.Int64()
 		if l > r {
 			return greater
 		} else if l < r {
@@ -965,7 +965,7 @@ func compareInt64(left, right bson.RawValue) int {
 	switch right.Type {
 	case bson.TypeDouble:
 		l := float64(left.Int64())
-		r := left.Double()
+		r := right.Double()
 		if l > r {
 			return greater
 		} else if l < r {
@@ -1004,7 +1004,7 @@ func compareInt64(left, right bson.RawValue) int {
 		break
 	case bson.TypeInt32:
 		l := left.Int64()
-		r := int64(left.Int32())
+		r := int64(right.Int32())
 		if l > r {
 			return greater
 		} else if l < r {
@@ -1017,7 +1017,7 @@ func compareInt64(left, right bson.RawValue) int {
 		break
 	case bson.TypeInt64:
 		l := left.Int64()
-		r := left.Int64()
+		r := right.Int64()
 		if l > r {
 			return greater
 		} else if l < r {
