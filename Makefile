@@ -53,3 +53,8 @@ test_type:
 	$(exec) '{"_id": "1.0"}'
 	$(exec) '{"_id": {"$$timestamp": {"t": 1, "i": 1}}}'
 	$(exec) '{"_id": {"$$oid": "617f7e336cca1101eb0d5ed0"}}'
+
+
+.PHONY: show_tmp
+show_tmp:
+	bsondump tmp.bson
