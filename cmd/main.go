@@ -17,31 +17,31 @@ func run() {
 
 	options, err := bsonfilter.ParseFlag()
 	if err != nil {
-		log.Logv(log.Always, err.Error())
+		log.Logv(log.Info, err.Error())
 		os.Exit(util.ExitFailure)
 	}
 
 	if options == nil {
-		log.Logvf(log.Always, "options is none, %v", options)
+		log.Logvf(log.Info, "options is none, %v", options)
 		os.Exit(0)
 	}
 
 	filter, err := bsonfilter.New(options)
 
 	if err != nil {
-		log.Logv(log.Always, err.Error())
+		log.Logv(log.Info, err.Error())
 		panic(err)
 	}
 	defer func() {
 		err := filter.Close()
 		if err != nil {
-			log.Logvf(log.Always, "error cleaning up: %v", err)
+			log.Logvf(log.Info, "error cleaning up: %v", err)
 			panic(err)
 		}
 	}()
 
 	numAll, numFound := filter.Run()
-	log.Logvf(log.Always, "numAll: %v, numFound: %v", numAll, numFound)
+	log.Logvf(log.Info, "numAll: %v, numFound: %v", numAll, numFound)
 
 }
 

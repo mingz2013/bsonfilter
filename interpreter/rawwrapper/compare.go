@@ -84,7 +84,7 @@ func compareDouble(left, right bson.RawValue) int {
 	case bson.TypeMaxKey:
 		return notSupport
 	default:
-		log.Logvf(log.Always, "unknown type %v", right.Type)
+		log.Logvf(log.Info, "unknown type %v", right.Type)
 		//os.Exit(util.ExitFailure)
 		panic(right.Type)
 	}
@@ -137,7 +137,7 @@ func compareString(left, right bson.RawValue) int {
 	case bson.TypeMaxKey:
 		return notSupport
 	default:
-		log.Logvf(log.Always, "unknown type %v", right.Type)
+		log.Logvf(log.Info, "unknown type %v", right.Type)
 		panic(right.Type)
 	}
 
@@ -188,7 +188,7 @@ func compareEmbeddedDocument(left, right bson.RawValue) int {
 	case bson.TypeMaxKey:
 		return notSupport
 	default:
-		log.Logvf(log.Always, "unknown type %v", right.Type)
+		log.Logvf(log.Info, "unknown type %v", right.Type)
 		panic(right.Type)
 	}
 
@@ -239,7 +239,7 @@ func compareArray(left, right bson.RawValue) int {
 	case bson.TypeMaxKey:
 		return notSupport
 	default:
-		log.Logvf(log.Always, "unknown type %v", right.Type)
+		log.Logvf(log.Info, "unknown type %v", right.Type)
 		panic(right.Type)
 	}
 
@@ -290,7 +290,7 @@ func compareBinary(left, right bson.RawValue) int {
 	case bson.TypeMaxKey:
 		return notSupport
 	default:
-		log.Logvf(log.Always, "unknown type %v", right.Type)
+		log.Logvf(log.Info, "unknown type %v", right.Type)
 		panic(right.Type)
 	}
 
@@ -341,7 +341,7 @@ func compareUndefined(left, right bson.RawValue) int {
 	case bson.TypeMaxKey:
 		return notSupport
 	default:
-		log.Logvf(log.Always, "unknown type %v", right.Type)
+		log.Logvf(log.Info, "unknown type %v", right.Type)
 		panic(right.Type)
 	}
 
@@ -394,7 +394,7 @@ func compareObjectID(left, right bson.RawValue) int {
 	case bson.TypeMaxKey:
 		return notSupport
 	default:
-		log.Logvf(log.Always, "unknown type %v", right.Type)
+		log.Logvf(log.Info, "unknown type %v", right.Type)
 		panic(right.Type)
 	}
 
@@ -445,7 +445,7 @@ func compareBoolean(left, right bson.RawValue) int {
 	case bson.TypeMaxKey:
 		return notSupport
 	default:
-		log.Logvf(log.Always, "unknown type %v", right.Type)
+		log.Logvf(log.Info, "unknown type %v", right.Type)
 		panic(right.Type)
 	}
 
@@ -504,7 +504,7 @@ func compareDateTime(left, right bson.RawValue) int {
 	case bson.TypeMaxKey:
 		break
 	default:
-		log.Logvf(log.Always, "unknown type %v", right.Type)
+		log.Logvf(log.Info, "unknown type %v", right.Type)
 		panic(right.Type)
 	}
 
@@ -555,7 +555,7 @@ func compareNull(left, right bson.RawValue) int {
 	case bson.TypeMaxKey:
 		break
 	default:
-		log.Logvf(log.Always, "unknown type %v", right.Type)
+		log.Logvf(log.Info, "unknown type %v", right.Type)
 		panic(right.Type)
 	}
 
@@ -606,7 +606,7 @@ func compareRegex(left, right bson.RawValue) int {
 	case bson.TypeMaxKey:
 		break
 	default:
-		log.Logvf(log.Always, "unknown type %v", right.Type)
+		log.Logvf(log.Info, "unknown type %v", right.Type)
 		panic(right.Type)
 	}
 
@@ -657,7 +657,7 @@ func compareDBPointer(left, right bson.RawValue) int {
 	case bson.TypeMaxKey:
 		break
 	default:
-		log.Logvf(log.Always, "unknown type %v", right.Type)
+		log.Logvf(log.Info, "unknown type %v", right.Type)
 		panic(right.Type)
 	}
 
@@ -708,7 +708,7 @@ func compareJavaScript(left, right bson.RawValue) int {
 	case bson.TypeMaxKey:
 		break
 	default:
-		log.Logvf(log.Always, "unknown type %v", right.Type)
+		log.Logvf(log.Info, "unknown type %v", right.Type)
 		panic(right.Type)
 	}
 
@@ -759,7 +759,7 @@ func compareSymbol(left, right bson.RawValue) int {
 	case bson.TypeMaxKey:
 		break
 	default:
-		log.Logvf(log.Always, "unknown type %v", right.Type)
+		log.Logvf(log.Info, "unknown type %v", right.Type)
 		panic(right.Type)
 	}
 
@@ -810,7 +810,7 @@ func compareCodeWithScope(left, right bson.RawValue) int {
 	case bson.TypeMaxKey:
 		break
 	default:
-		log.Logvf(log.Always, "unknown type %v", right.Type)
+		log.Logvf(log.Info, "unknown type %v", right.Type)
 		panic(right.Type)
 	}
 
@@ -888,7 +888,7 @@ func compareInt32(left, right bson.RawValue) int {
 	case bson.TypeMaxKey:
 		break
 	default:
-		log.Logvf(log.Always, "unknown type %v", right.Type)
+		log.Logvf(log.Info, "unknown type %v", right.Type)
 		panic(right.Type)
 	}
 
@@ -955,7 +955,7 @@ func compareTimestamp(left, right bson.RawValue) int {
 	case bson.TypeMaxKey:
 		break
 	default:
-		log.Logvf(log.Always, "unknown type %v", right.Type)
+		log.Logvf(log.Info, "unknown type %v", right.Type)
 		panic(right.Type)
 	}
 
@@ -1033,7 +1033,7 @@ func compareInt64(left, right bson.RawValue) int {
 	case bson.TypeMaxKey:
 		break
 	default:
-		log.Logvf(log.Always, "unknown type %v", right.Type)
+		log.Logvf(log.Info, "unknown type %v", right.Type)
 		panic(right.Type)
 	}
 
@@ -1084,7 +1084,7 @@ func compareDecimal128(left, right bson.RawValue) int {
 	case bson.TypeMaxKey:
 		break
 	default:
-		log.Logvf(log.Always, "unknown type %v", right.Type)
+		log.Logvf(log.Info, "unknown type %v", right.Type)
 		panic(right.Type)
 	}
 
@@ -1135,7 +1135,7 @@ func compareMinKey(left, right bson.RawValue) int {
 	case bson.TypeMaxKey:
 		break
 	default:
-		log.Logvf(log.Always, "unknown type %v", right.Type)
+		log.Logvf(log.Info, "unknown type %v", right.Type)
 		panic(right.Type)
 	}
 
@@ -1186,7 +1186,7 @@ func compareMaxKey(left, right bson.RawValue) int {
 	case bson.TypeMaxKey:
 		break
 	default:
-		log.Logvf(log.Always, "unknown type %v", right.Type)
+		log.Logvf(log.Info, "unknown type %v", right.Type)
 		panic(right.Type)
 	}
 
@@ -1195,7 +1195,7 @@ func compareMaxKey(left, right bson.RawValue) int {
 
 func Compare(left, right bson.RawValue) int {
 
-	log.Logvf(log.Always, "Compare << : left %v, right %v", left, right)
+	log.Logvf(log.DebugHigh, "Compare << : left %v, right %v", left, right)
 
 	switch left.Type {
 	case bson.TypeDouble:
@@ -1241,7 +1241,7 @@ func Compare(left, right bson.RawValue) int {
 	case bson.TypeMaxKey:
 		return compareMaxKey(left, right)
 	default:
-		log.Logvf(log.Always, "unknown type %v, left: %v", left.Type, left)
+		log.Logvf(log.Info, "unknown type %v, left: %v", left.Type, left)
 		//panic(left.Type)
 		return notSupport
 	}
@@ -1279,7 +1279,7 @@ func IsIn(left, right bson.RawValue) bool {
 	raw := right.Array()
 	elems, err := raw.Values()
 	if err != nil {
-		log.Logvf(log.Always, "error %v", err)
+		log.Logvf(log.Info, "error %v", err)
 		panic(err)
 	}
 	for _, elem := range elems {

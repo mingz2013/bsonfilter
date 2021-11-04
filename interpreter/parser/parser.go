@@ -16,10 +16,10 @@ func (parser *Parser) Parse(raw bson.Raw) (node ast.Expression) {
 }
 
 func (parser *Parser) parseRaw(raw bson.Raw) (node ast.Expression) {
-	log.Logvf(log.Always, "parseRaw...%v", raw)
+	log.Logvf(log.DebugHigh, "parseRaw...%v", raw)
 	rawElems, err := raw.Elements()
 	if err != nil {
-		log.Logvf(log.Always, "err: %v", err)
+		log.Logvf(log.Info, "err: %v", err)
 		//os.Exit(util.ExitFailure)
 		panic(err)
 	}
@@ -30,7 +30,7 @@ func (parser *Parser) parseAndByRawElements(rawElems []bson.RawElement) ast.Expr
 
 	length := len(rawElems)
 	if length == 0 {
-		log.Logvf(log.Always, "error rawElems: %v", rawElems)
+		log.Logvf(log.Info, "error rawElems: %v", rawElems)
 		return nil
 	} else if length == 1 {
 		return parser.parseExpression(rawElems[0])
@@ -46,19 +46,19 @@ func (parser *Parser) parseAndByRawElements(rawElems []bson.RawElement) ast.Expr
 func (parser *Parser) rawValueToRawValues(rawVaue bson.RawValue) []bson.RawValue {
 	raw, ok := rawVaue.ArrayOK()
 	if !ok {
-		log.Logvf(log.Always, "error parse")
+		log.Logvf(log.Info, "error parse")
 		panic(rawVaue)
 	}
 	rawValues, err := raw.Values()
 	if err != nil {
-		log.Logvf(log.Always, "error parse")
+		log.Logvf(log.Info, "error parse")
 		panic(err)
 	}
 	return rawValues
 }
 
 func (parser *Parser) parseExpression(e bson.RawElement) ast.Expression {
-	log.Logvf(log.Always, "parseExpression << e: %v, e.Key: %v, e.Value: %v", e, e.Key(), e.Value())
+	log.Logvf(log.DebugHigh, "parseExpression << e: %v, e.Key: %v, e.Value: %v", e, e.Key(), e.Value())
 	switch e.Key() {
 	case token.KeywordAnd:
 		rawValues := parser.rawValueToRawValues(e.Value())
@@ -85,11 +85,11 @@ func (parser *Parser) parseNot(raw bson.Raw) ast.Expression {
 }
 
 func (parser *Parser) parseAnd(rawValues []bson.RawValue) ast.Expression {
-	log.Logvf(log.Always, "parseAnd << %v", rawValues)
+	log.Logvf(log.DebugHigh, "parseAnd << %v", rawValues)
 
 	length := len(rawValues)
 	if length == 0 {
-		log.Logvf(log.Always, "parseAnd length 0, %v", rawValues)
+		log.Logvf(log.Info, "parseAnd length 0, %v", rawValues)
 		return nil
 	} else if length == 1 {
 		return parser.parseRaw(rawValues[0].Document())
@@ -103,11 +103,11 @@ func (parser *Parser) parseAnd(rawValues []bson.RawValue) ast.Expression {
 }
 
 func (parser *Parser) parseOr(rawValues []bson.RawValue) ast.Expression {
-	log.Logvf(log.Always, "parseOr << %v", rawValues)
+	log.Logvf(log.DebugHigh, "parseOr << %v", rawValues)
 
 	length := len(rawValues)
 	if length == 0 {
-		log.Logvf(log.Always, "parseOr length 0, %v", rawValues)
+		log.Logvf(log.Info, "parseOr length 0, %v", rawValues)
 		return nil
 	} else if length == 1 {
 		return parser.parseRaw(rawValues[0].Document())
@@ -120,11 +120,11 @@ func (parser *Parser) parseOr(rawValues []bson.RawValue) ast.Expression {
 }
 
 func (parser *Parser) parseNor(rawValues []bson.RawValue) ast.Expression {
-	log.Logvf(log.Always, "parseNor << %v", rawValues)
+	log.Logvf(log.DebugHigh, "parseNor << %v", rawValues)
 
 	length := len(rawValues)
 	if length == 0 {
-		log.Logvf(log.Always, "parseNor length 0, %v", rawValues)
+		log.Logvf(log.Info, "parseNor length 0, %v", rawValues)
 		return nil
 	} else if length == 1 {
 		node2 := ast.NotExpression{}
@@ -141,25 +141,25 @@ func (parser *Parser) parseNor(rawValues []bson.RawValue) ast.Expression {
 }
 
 func (parser *Parser) parseKey(key string, value bson.RawValue) ast.Expression {
-	log.Logvf(log.Always, "parseKey << %v, %v", key, value)
+	log.Logvf(log.DebugHigh, "parseKey << %v, %v", key, value)
 	keyNode := ast.Identifier{}
 	keyNode.Key = key
 
 	raw, ok := value.DocumentOK()
 
-	log.Logvf(log.Always, "parseKey, raw : %v, ok: %v", raw, ok)
+	log.Logvf(log.DebugHigh, "parseKey, raw : %v, ok: %v", raw, ok)
 
 	if !ok {
 		node := ast.EqualExpression{}
 		node.Value1 = keyNode
 		node.Value2 = ast.Literal{Value: value}
-		log.Logvf(log.Always, "parseKey node >> %v", node)
+		log.Logvf(log.DebugHigh, "parseKey node >> %v", node)
 		return node
 	}
 
 	elems, err := raw.Elements()
 	if err != nil {
-		log.Logvf(log.Always, "err: %v", err)
+		log.Logvf(log.Info, "err: %v", err)
 		//os.Exit(util.ExitFailure)
 		panic(err)
 	}
@@ -171,7 +171,7 @@ func (parser *Parser) parseKey(key string, value bson.RawValue) ast.Expression {
 func (parser *Parser) parseKeyAnd(keyNode ast.Identifier, elems []bson.RawElement) ast.Expression {
 	length := len(elems)
 	if length == 0 {
-		log.Logvf(log.Always, "parseKeyAnd length = 0, %v", elems)
+		log.Logvf(log.Info, "parseKeyAnd length = 0, %v", elems)
 		return nil
 	} else if length == 1 {
 		return parser.parseKeyExpression(keyNode, elems[0])
@@ -184,7 +184,7 @@ func (parser *Parser) parseKeyAnd(keyNode ast.Identifier, elems []bson.RawElemen
 }
 
 func (parser *Parser) parseKeyExpression(keyNode ast.Identifier, e bson.RawElement) ast.Expression {
-	log.Logvf(log.Always, "parseKeyExpression << keyNode: %v, e: %v", keyNode, e)
+	log.Logvf(log.DebugHigh, "parseKeyExpression << keyNode: %v, e: %v", keyNode, e)
 	switch e.Key() {
 	case token.KeywordEq:
 		node := ast.EqualExpression{}
@@ -235,13 +235,13 @@ func (parser *Parser) parseKeyExpression(keyNode ast.Identifier, e bson.RawEleme
 		return node
 
 	case token.KeywordExists:
-		log.Logvf(log.Always, "KeywordExists, e %v, e.Key, %v, e.Value, %s", e, e.Key(), e.Value())
+		log.Logvf(log.DebugHigh, "KeywordExists, e %v, e.Key, %v, e.Value, %s", e, e.Key(), e.Value())
 		node := ast.ExistsExpression{}
 		node.Value1 = keyNode
 		node.Value2 = ast.Literal{Value: e.Value()}
 		return node
 	default:
-		log.Logvf(log.Always, "error: %v, %v", keyNode, e)
+		log.Logvf(log.Info, "error: %v, %v", keyNode, e)
 		//os.Exit(util.ExitFailure)
 		panic(e)
 

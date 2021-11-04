@@ -22,7 +22,7 @@ func New() *Interpreter {
 
 func (interpreter *Interpreter) Init(query bson.Raw) *Interpreter {
 	interpreter.Ast = interpreter.Parser.Parse(query)
-	log.Logvf(log.Always, "Init..., %v", interpreter.Ast)
+	log.Logvf(log.DebugHigh, "Init..., %v", interpreter.Ast)
 	return interpreter
 }
 

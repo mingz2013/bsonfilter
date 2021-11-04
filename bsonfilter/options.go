@@ -16,7 +16,8 @@ type Options struct {
 	IFileName string
 	OFileName string
 	Query     string
-	IsDebug   bool
+	IsV       bool
+	IsVV      bool
 }
 
 func (options *Options) getBSONReader() (io.ReadCloser, error) {
@@ -43,31 +44,31 @@ func (options *Options) getWriter() (io.WriteCloser, error) {
 }
 
 func (options *Options) getInterpreter() *interpreter2.Interpreter {
-	log.Logv(log.Always, "getInterpreter...")
+	log.Logv(log.DebugHigh, "getInterpreter...")
 	interpreter := interpreter2.New()
 
 	var query bson.D
 	err := bson.UnmarshalExtJSON([]byte(options.Query), false, &query)
 	if err != nil {
-		log.Logvf(log.Always, "error parsing query as Extended JSON: %v", err)
+		log.Logvf(log.Info, "error parsing query as Extended JSON: %v", err)
 		//os.Exit(util.ExitFailure)
 		panic(err)
 	}
 
-	log.Logvf(log.Always, "query d: %v", query)
+	log.Logvf(log.Info, "query d: %v", query)
 
 	b, err := bson.Marshal(query)
 
 	if err != nil {
-		log.Logvf(log.Always, "error marshal bson query, %v", options.Query)
+		log.Logvf(log.Info, "error marshal bson query, %v", options.Query)
 		//os.Exit(util.ExitFailure)
 		panic(err)
 	}
 
-	log.Logvf(log.Always, "query b %v", b)
+	log.Logvf(log.DebugHigh, "query b %v", b)
 
 	raw := bson.Raw(b)
-	log.Logvf(log.Always, "query raw: %v", raw)
+	log.Logvf(log.Info, "query raw: %v", raw)
 
 	interpreter.Init(raw)
 	return interpreter
@@ -75,7 +76,8 @@ func (options *Options) getInterpreter() *interpreter2.Interpreter {
 
 func ParseFlag() (*Options, error) {
 	isHelp := flag.Bool("h", false, "show help")
-	isDebug := flag.Bool("v", false, "show details info")
+	isV := flag.Bool("v", false, "show details info")
+	isVV := flag.Bool("vv", false, "show debug info")
 	oFilePtr := flag.String("o", "", "output file")
 	iFilePtr := flag.String("i", "", "input file")
 	queryPtr := flag.String("q", "", "query filter, as a json string")
@@ -84,7 +86,7 @@ func ParseFlag() (*Options, error) {
 	//log.Logvf(log.Always, "show help: %v", isHelp)
 	//log.Logvf(log.Always, "input file: %v", *iFilePtr)
 	//log.Logvf(log.Always, "output file: %v", *oFilePtr)
-	log.Logvf(log.Always, "query: %v", *queryPtr)
+	log.Logvf(log.Info, "query: %v", *queryPtr)
 
 	if *isHelp || *oFilePtr == "" || *iFilePtr == "" || *queryPtr == "" {
 		//log.Logv(log.Always, "Usage for bsonfilter:")
@@ -96,6 +98,7 @@ func ParseFlag() (*Options, error) {
 		IFileName: *iFilePtr,
 		OFileName: *oFilePtr,
 		Query:     *queryPtr,
-		IsDebug:   *isDebug,
+		IsV:       *isV,
+		IsVV:      *isVV,
 	}, nil
 }

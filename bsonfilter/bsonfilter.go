@@ -5,6 +5,7 @@ import (
 	"github.com/mingz2013/bsonfilter/interpreter"
 	"github.com/mongodb/mongo-tools/common/db"
 	"github.com/mongodb/mongo-tools/common/log"
+	"github.com/mongodb/mongo-tools/common/options"
 	"go.mongodb.org/mongo-driver/bson"
 	"io"
 )
@@ -22,13 +23,13 @@ func (bf *BSONFilter) Close() error {
 }
 
 func (bf *BSONFilter) Check(raw *bson.Raw) bool {
-	log.Logvf(log.Always, "Check rawwrapper: %v", *raw)
+	log.Logvf(log.DebugHigh, "Check rawwrapper: %v", *raw)
 	return bf.interpreter.Check(raw)
 }
 
 func (bf *BSONFilter) Run() (numAll, numFound int) {
 
-	log.Logv(log.Always, "Run...")
+	log.Logv(log.Info, "Run...")
 
 	for {
 		result := bson.Raw(bf.InputSource.LoadNext())
@@ -43,7 +44,7 @@ func (bf *BSONFilter) Run() (numAll, numFound int) {
 		if ok {
 			n, err := bf.OutputWriter.Write(result)
 			if err != nil {
-				log.Logvf(log.Always, "output write err: %v, n: %v", err, n)
+				log.Logvf(log.Info, "output write err: %v, n: %v", err, n)
 				break
 			}
 			numFound++
@@ -57,7 +58,7 @@ func (bf *BSONFilter) Run() (numAll, numFound int) {
 
 	}
 
-	log.Logv(log.Always, "Run...end")
+	log.Logv(log.Info, "Run...end")
 
 	if err := bf.InputSource.Err(); err != nil {
 		panic(err)
@@ -96,12 +97,21 @@ func New(options *Options) (*BSONFilter, error) {
 func (bf *BSONFilter) Init() {
 	bf.InputSource.SetMaxBSONSize(16 * 1024 * 1024)
 
-	//verbosity := options.Verbosity{}
-	//if !bf.options.IsDebug {
-	//	verbosity.Quiet = true
-	//} else {
-	//	verbosity.VLevel = 5
-	//}
-	//log.SetVerbosity(verbosity)
+	verbosity := options.Verbosity{}
+	if bf.options.IsV {
+		// info
+		verbosity.Quiet = false
+		verbosity.VLevel = 1
+	}
+	if bf.options.IsVV {
+		verbosity.Quiet = false
+		verbosity.VLevel = 5
+
+	}
+	if !bf.options.IsV && !bf.options.IsVV {
+		verbosity.VLevel = 0
+		verbosity.Quiet = true
+	}
+	log.SetVerbosity(verbosity)
 
 }
