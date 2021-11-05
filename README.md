@@ -48,6 +48,7 @@ mongo全部指令参考：https://docs.mongodb.com/v4.0/reference/operator/query
 - $nor
 - $or
 - $exists
+- $regex  只支持 contains匹配模式
 
 ## 目前支持的类型比较
 
