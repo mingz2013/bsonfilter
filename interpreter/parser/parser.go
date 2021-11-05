@@ -240,6 +240,13 @@ func (parser *Parser) parseKeyExpression(keyNode ast.Identifier, e bson.RawEleme
 		node.Value1 = keyNode
 		node.Value2 = ast.Literal{Value: e.Value()}
 		return node
+
+	case token.KeywordRegex:
+		log.Logvf(log.DebugHigh, "KeywordRegex, e %v, e.Key, %v, e.Value, %s", e, e.Key(), e.Value())
+		node := ast.RegexExpression{}
+		node.Value1 = keyNode
+		node.Value2 = ast.Literal{Value: e.Value()}
+		return node
 	default:
 		log.Logvf(log.Info, "error: %v, %v", keyNode, e)
 		//os.Exit(util.ExitFailure)

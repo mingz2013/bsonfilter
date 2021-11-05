@@ -2,7 +2,9 @@ package ast
 
 import (
 	"github.com/mingz2013/bsonfilter/interpreter/rawwrapper"
+	"github.com/mongodb/mongo-tools/common/log"
 	"go.mongodb.org/mongo-driver/bson"
+	"strings"
 )
 
 type Node interface {
@@ -176,4 +178,27 @@ func (node ExistsExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
 		}
 	}
 	return false
+}
+
+type RegexExpression struct {
+	KeyExpression
+}
+
+func (node RegexExpression) Execute(wrapper *rawwrapper.RawWrapper) bool {
+	lv := node.Value1.GetRawValue(wrapper)
+	rv := node.Value2.GetRawValue()
+	log.Logvf(log.DebugHigh, "RegexExpression lv: %v, rv: %v", lv, rv)
+
+	s, ok := lv.StringValueOK()
+	if !ok {
+		log.Logvf(log.DebugHigh, "regex left value not string, lv: %v, rv: %v", lv, rv)
+		return false
+	}
+
+	s2, ok := rv.StringValueOK()
+	if !ok {
+		log.Logvf(log.DebugHigh, "regex right value not string, lv: %v, rv: %v", lv, rv)
+		return false
+	}
+	return strings.Contains(s, s2)
 }

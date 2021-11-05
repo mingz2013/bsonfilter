@@ -40,6 +40,7 @@ test_cmd:
 	$(exec) '{"$$not": {"$$or": [{"_id": 1}, {"a": {"$$exists": 0}}]}}'
 	$(exec) '{"$$nor": [{"_id": 1}, {"a": {"$$exists": 0}}]}'
 	$(exec) '{"_id": {"$$exists": 1}}'
+	$(exec) '{"_id": {"$$regex": "aaa"}}' # 只支持子字符串匹配
 
 
 .PHONY: test_type
