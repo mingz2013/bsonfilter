@@ -15,6 +15,9 @@ Usage of ./bin/bsonfilter.darwin:
         output file
   -q string
         query filter, as a json string
+  -v    show details info
+  -vv
+        show debug info 
 ```
 
 
