@@ -44,7 +44,7 @@ func (bf *BSONFilter) Run() (numAll, numFound int) {
 		if ok {
 			n, err := bf.OutputWriter.Write(result)
 			if err != nil {
-				log.Logvf(log.Info, "output write err: %v, n: %v", err, n)
+				log.Logvf(log.Always, "output write err: %v, n: %v", err, n)
 				break
 			}
 			numFound++
@@ -61,6 +61,7 @@ func (bf *BSONFilter) Run() (numAll, numFound int) {
 	log.Logv(log.Info, "Run...end")
 
 	if err := bf.InputSource.Err(); err != nil {
+		log.Logvf(log.Always, "err: %v", err)
 		panic(err)
 	}
 

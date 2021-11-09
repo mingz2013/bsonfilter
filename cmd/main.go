@@ -17,8 +17,9 @@ func run() {
 
 	options, err := bsonfilter.ParseFlag()
 	if err != nil {
-		log.Logv(log.Info, err.Error())
+		log.Logv(log.Always, err.Error())
 		os.Exit(util.ExitFailure)
+
 	}
 
 	if options == nil {
@@ -29,13 +30,13 @@ func run() {
 	filter, err := bsonfilter.New(options)
 
 	if err != nil {
-		log.Logv(log.Info, err.Error())
+		log.Logv(log.Always, err.Error())
 		panic(err)
 	}
 	defer func() {
 		err := filter.Close()
 		if err != nil {
-			log.Logvf(log.Info, "error cleaning up: %v", err)
+			log.Logvf(log.Always, "error cleaning up: %v", err)
 			panic(err)
 		}
 	}()

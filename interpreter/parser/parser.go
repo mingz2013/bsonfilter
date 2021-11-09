@@ -19,7 +19,7 @@ func (parser *Parser) parseRaw(raw bson.Raw) (node ast.Expression) {
 	log.Logvf(log.DebugHigh, "parseRaw...%v", raw)
 	rawElems, err := raw.Elements()
 	if err != nil {
-		log.Logvf(log.Info, "err: %v", err)
+		log.Logvf(log.Always, "err: %v", err)
 		//os.Exit(util.ExitFailure)
 		panic(err)
 	}
@@ -46,12 +46,12 @@ func (parser *Parser) parseAndByRawElements(rawElems []bson.RawElement) ast.Expr
 func (parser *Parser) rawValueToRawValues(rawVaue bson.RawValue) []bson.RawValue {
 	raw, ok := rawVaue.ArrayOK()
 	if !ok {
-		log.Logvf(log.Info, "error parse")
+		log.Logvf(log.Always, "error parse")
 		panic(rawVaue)
 	}
 	rawValues, err := raw.Values()
 	if err != nil {
-		log.Logvf(log.Info, "error parse")
+		log.Logvf(log.Always, "error parse")
 		panic(err)
 	}
 	return rawValues
@@ -159,7 +159,7 @@ func (parser *Parser) parseKey(key string, value bson.RawValue) ast.Expression {
 
 	elems, err := raw.Elements()
 	if err != nil {
-		log.Logvf(log.Info, "err: %v", err)
+		log.Logvf(log.Always, "err: %v", err)
 		//os.Exit(util.ExitFailure)
 		panic(err)
 	}
@@ -248,7 +248,7 @@ func (parser *Parser) parseKeyExpression(keyNode ast.Identifier, e bson.RawEleme
 		node.Value2 = ast.Literal{Value: e.Value()}
 		return node
 	default:
-		log.Logvf(log.Info, "error: %v, %v", keyNode, e)
+		log.Logvf(log.Always, "error: %v, %v", keyNode, e)
 		//os.Exit(util.ExitFailure)
 		panic(e)
 

@@ -50,7 +50,7 @@ func (options *Options) getInterpreter() *interpreter2.Interpreter {
 	var query bson.D
 	err := bson.UnmarshalExtJSON([]byte(options.Query), false, &query)
 	if err != nil {
-		log.Logvf(log.Info, "error parsing query as Extended JSON: %v", err)
+		log.Logvf(log.Always, "error parsing query as Extended JSON: %v", err)
 		//os.Exit(util.ExitFailure)
 		panic(err)
 	}
@@ -60,7 +60,7 @@ func (options *Options) getInterpreter() *interpreter2.Interpreter {
 	b, err := bson.Marshal(query)
 
 	if err != nil {
-		log.Logvf(log.Info, "error marshal bson query, %v", options.Query)
+		log.Logvf(log.Always, "error marshal bson query, %v", options.Query)
 		//os.Exit(util.ExitFailure)
 		panic(err)
 	}
@@ -91,6 +91,7 @@ func ParseFlag() (*Options, error) {
 	if *isHelp || *oFilePtr == "" || *iFilePtr == "" || *queryPtr == "" {
 		//log.Logv(log.Always, "Usage for bsonfilter:")
 		flag.Usage()
+		os.Exit(0)
 		return nil, nil
 	}
 
